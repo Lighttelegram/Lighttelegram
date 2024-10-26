@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@twa-dev/sdk": "^7.10.1"
+  }
+}
