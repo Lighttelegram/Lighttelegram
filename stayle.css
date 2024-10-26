@@ -1,0 +1,153 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #222;
+    position: relative;
+}
+
+.light {
+    margin-bottom: 10px; /* Reduced spacing above the button */
+}
+
+.counter {
+    position: absolute;
+    top: 10px; /* Adjusted for smaller view */
+    left: 50%;
+    transform: translateX(-50%); /* Center horizontally */
+    color: #fff;
+    font-size: 18px; /* Reduced font size */
+}
+
+.bulb {
+    position: relative;
+    width: 60px; /* Reduced bulb size */
+    height: 60px; /* Reduced bulb size */
+    background: #444;
+    border-radius: 50%;
+    z-index: 2;
+}
+
+.bulb.on {
+    background: radial-gradient(#555, #111);
+}
+
+body.on .bulb {
+    background: #fff;
+    box-shadow:
+        0 0 30px #fff, /* Reduced glow effect */
+        0 0 50px #fff,
+        0 0 70px #fff;
+}
+
+.bulb::before {
+    content: '';
+    position: absolute;
+    top: -30px; /* Adjusted for smaller view */
+    left: 15px; /* Adjusted for smaller view */
+    width: 25px; /* Reduced wire size */
+    height: 60px; /* Adjusted wire size */
+    background: #444;
+    border-top: 20px solid #000; /* Reduced wire thickness */
+    border-radius: 10px;
+}
+
+body.on .bulb::before {
+    background: #fff;
+}
+
+body.on .bulb::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90px; /* Reduced outer glow */
+    height: 90px; /* Reduced outer glow */
+    background: #fff;
+    border-radius: 50%;
+    filter: blur(30px); /* Reduced blur effect */
+}
+
+.bulb span:nth-child(1),
+.bulb span:nth-child(2) {
+    position: absolute;
+    display: block;
+    width: 20px; /* Reduced shadow size */
+    height: 20px; /* Reduced shadow size */
+    background: transparent;
+    box-shadow: -15px 15px 0 5px #1; /* Adjusted shadow size */
+}
+
+.bulb span:nth-child(1) {
+    top: -10px;
+    left: -2px;
+    transform: rotate(342deg);
+    border-bottom-right-radius: 30px; /* Adjusted rounding */
+}
+
+.bulb span:nth-child(2) {
+    top: -10px;
+    right: -2px;
+    transform: rotate(17deg);
+    border-bottom-left-radius: 30px; /* Adjusted rounding */
+}
+
+.wire {
+    position: absolute;
+    left: calc(50% - 4px);
+    bottom: 50%;
+    width: 3px; /* Reduced wire width */
+    height: 50vh; /* Adjusted for smaller view */
+    background: #000;
+}
+
+.btn {
+    position: absolute;
+    bottom: 80px; /* Adjusted position */
+    left: 50%;
+    transform: translateX(-50%); /* Center horizontally */
+    padding: 8px 16px; /* Adjusted button padding */
+    font-size: 16px; /* Reduced font size */
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Transition effect for hover */
+}
+
+.btn:hover {
+    background-color: #666; /* Slight hover effect */
+}
+
+/* Menu Bar Styles */
+.menu-bar {
+    position: absolute;
+    bottom: 0; /* Stick to bottom */
+    left: 0;
+    right: 0;
+    background: #333; /* Dark background */
+    display: flex;
+    justify-content: space-around; /* Space items evenly */
+    padding: 10px 0; /* Vertical padding */
+}
+
+.menu-item {
+    color: #fff; /* White text */
+    text-align: center; /* Center the text */
+}
+
+.menu-icon {
+    width: 24px; /* Icon size */
+    height: 24px; /* Icon size */
+    margin-bottom: 5px; /* Spacing between icon and text */
+}
