@@ -3,6 +3,6 @@
     { "src": "/", "dest": "/" },
     { "src": "/recruit", "dest": "/" }
     { "src": "/tos", "dest": "/" }
-    // 
+    
   ]
 }
