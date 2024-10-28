@@ -23,6 +23,25 @@
             width: 200px; /* Adjust size as needed */
             height: auto;
         }
+        .light {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0; /* Light background */
+        }
+        .bulb {
+            width: 100px;
+            height: 100px;
+            background-color: #FFD700; /* Bulb color */
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
+        }
+        .counter {
+            text-align: center;
+            font-size: 2em;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body style="display: none;"> <!-- Initially hidden to show loading screen first -->
@@ -33,11 +52,7 @@
 
     <!-- Main content -->
     <div class="light">
-        <div class="wire"></div>
-        <div class="bulb">
-            <span></span>
-            <span></span>
-        </div>
+        <div class="bulb" id="bulb"></div> <!-- Light bulb representation -->
     </div>
     
     <div class="counter" id="counter">1000</div> <!-- Counter display -->
@@ -64,6 +79,7 @@
 
         // Initialize variables
         let body = document.querySelector('body');
+        let bulb = document.getElementById('bulb');
         let counterDisplay = document.getElementById('counter');
         let startBtn = document.getElementById('startBtn');
         let counter = parseInt(localStorage.getItem('counter')) || 1000; // Load initial counter from localStorage
@@ -118,6 +134,7 @@
                     isCountdownActive = true;
                     startCountdown(); // Start countdown
                     startCounter(); // Start counting for the counter
+                    turnOnLight(); // Turn on the light when countdown is active
                 }
             } else {
                 startBtn.innerText = formatTime(countdownTime); // Set initial countdown display
@@ -147,6 +164,19 @@
             isCountdownActive = false; // Mark countdown as inactive
             localStorage.removeItem('startTime'); // Remove start time from localStorage
             localStorage.removeItem('countdownTime'); // Clear countdown time from localStorage
+            turnOffLight(); // Turn off the light when countdown ends
+        }
+
+        // Turn on the light bulb
+        function turnOnLight() {
+            bulb.style.boxShadow = "0 0 20px rgba(255, 215, 0, 0.7)"; // Light effect
+            bulb.style.backgroundColor = "#FFD700"; // Bulb color
+        }
+
+        // Turn off the light bulb
+        function turnOffLight() {
+            bulb.style.boxShadow = "0 0 5px rgba(0, 0, 0, 0.1)"; // Dim effect
+            bulb.style.backgroundColor = "#f0f0f0"; // Dim color
         }
 
         // Button click to start countdown and counter
@@ -156,6 +186,7 @@
                 startBtn.innerText = formatTime(countdownTime);
                 startCountdown();
                 startCounter(); // Start the counter increment
+                turnOnLight(); // Turn on the light when countdown starts
             }
         };
     </script>
