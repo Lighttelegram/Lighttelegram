@@ -23,33 +23,6 @@
             width: 200px; /* Adjust size as needed */
             height: auto;
         }
-        /* Main content styles */
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #f0f0f0; /* Light gray background */
-            font-family: Arial, sans-serif;
-        }
-        .counter {
-            font-size: 24px;
-            color: #333;
-            margin: 10px 0;
-        }
-        .btn {
-            padding: 10px 20px;
-            font-size: 18px;
-            background-color: #4CAF50; /* Green background */
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .btn:disabled {
-            background-color: #ccc; /* Disabled button color */
-        }
     </style>
 </head>
 <body style="display: none;"> <!-- Initially hidden to show loading screen first -->
@@ -92,11 +65,13 @@
         };
 
         // Initialize variables
+        let body = document.querySelector('body');
         let counterDisplay = document.getElementById('counter');
         let startBtn = document.getElementById('startBtn');
         let counter = parseInt(localStorage.getItem('counter')) || 1000; // Default starting counter
         let countdownTime = parseInt(localStorage.getItem('countdownTime')) || 21600; // 6 hours in seconds
         let countdownInterval; // For countdown
+        let startTime; // To track when the countdown started
 
         // Format time for display
         function formatTime(seconds) {
@@ -108,7 +83,9 @@
 
         // Start the countdown and counter increment
         function startCountdown() {
+            body.classList.add('on');
             startBtn.disabled = true;
+            startTime = Date.now(); // Store the start time
 
             // Start the countdown
             countdownInterval = setInterval(() => {
@@ -140,10 +117,14 @@
             const savedCountdownTime = localStorage.getItem('countdownTime');
             if (savedCountdownTime) {
                 countdownTime = parseInt(savedCountdownTime, 10);
-                startBtn.innerText = formatTime(countdownTime);
-                
+
+                // Calculate time elapsed since the countdown started
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                countdownTime -= elapsed; // Adjust the countdown time accordingly
+
                 if (countdownTime > 0) {
-                    startCountdown(); // Start countdown if time is remaining
+                    startBtn.innerText = formatTime(countdownTime);
+                    startCountdown();
                 } else {
                     endCountdown(); // If time has elapsed, reset
                 }
@@ -156,13 +137,14 @@
         function endCountdown() {
             clearInterval(countdownInterval);
             startBtn.innerText = '0h 00m 00s';
+            body.classList.remove('on');
             startBtn.disabled = false;
             localStorage.removeItem('countdownTime'); // Remove countdown from localStorage when done
         }
 
         // Button click to start countdown and counter
         startBtn.onclick = function() {
-            if (!startBtn.disabled) {
+            if (!body.classList.contains('on')) {
                 countdownTime = 21600; // Reset to 6 hours
                 startBtn.innerText = formatTime(countdownTime);
                 startCountdown();
