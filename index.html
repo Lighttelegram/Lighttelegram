@@ -135,6 +135,7 @@
                 if (countdownTime <= 0) {
                     endCountdown();
                 }
+                localStorage.setItem('countdownTime', countdownTime); // Save countdown time to localStorage
             }, 1000);
         }
 
@@ -145,6 +146,7 @@
             startBtn.innerText = 'Countdown Finished';
             isCountdownActive = false; // Mark countdown as inactive
             localStorage.removeItem('startTime'); // Remove start time from localStorage
+            localStorage.removeItem('countdownTime'); // Clear countdown time from localStorage
         }
 
         // Button click to start countdown and counter
