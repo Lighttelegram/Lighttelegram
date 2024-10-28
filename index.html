@@ -1,153 +1,113 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make Your World Bright</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Loading screen styles */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: #222; /* Dark background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10; /* Ensure it's above other content */
+        }
+        .loading-image {
+            width: 200px; /* Adjust size as needed */
+            height: auto;
+        }
+    </style>
+</head>
+<body style="display: none;"> <!-- Initially hidden to show loading screen first -->
+    <!-- Loading screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <img src="ad.jpeg" alt="Loading Lightbulb" class="loading-image"> <!-- Replace with the actual path if different -->
+    </div>
 
-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: #222;
-    position: relative;
-}
+    <!-- Main content -->
+    <div class="light">
+        <div class="wire"></div>
+        <div class="bulb">
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+    
+    <div class="counter" id="counter">1000</div> <!-- Counter display -->
+    <button class="btn" id="startBtn">6h 00m 00s</button> <!-- Button to start countdown -->
 
-.light {
-    margin-bottom: 10px; /* Reduced spacing above the button */
-}
+    <div class="menu-bar">
+        <div class="menu-item">Home</div>
+        <div class="menu-item">Task</div>
+        <div class="menu-item">Friend</div>
+        <div class="menu-item">Earn</div>
+        <div class="menu-item">Wallet</div>
+    </div>
 
-.counter {
-    position: absolute;
-    top: 10px; /* Adjusted for smaller view */
-    left: 50%;
-    transform: translateX(-50%); /* Center horizontally */
-    color: #fff;
-    font-size: 18px; /* Reduced font size */
-}
+    <script>
+        // Show loading screen and then reveal main content
+        window.onload = function() {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').style.display = 'none'; // Hide loading screen
+                document.body.style.display = 'flex'; // Show main content
+            }, 2000); // Wait for 2 seconds before showing content
+        };
 
-.bulb {
-    position: relative;
-    width: 60px; /* Reduced bulb size */
-    height: 60px; /* Reduced bulb size */
-    background: #444;
-    border-radius: 50%;
-    z-index: 2;
-}
+        // Main script
+        let body = document.querySelector('body');
+        let counterDisplay = document.getElementById('counter');
+        let startBtn = document.getElementById('startBtn');
+        let counter = 1000; // Set initial counter to 1,000
+        let interval; // For the counting upwards
+        let countdownInterval; // For the countdown
+        let countdownTime = 21600; // 6 hours in seconds (21600 seconds)
 
-.bulb.on {
-    background: radial-gradient(#555, #111);
-}
+        function formatTime(seconds) {
+            let h = Math.floor(seconds / 3600);
+            let m = Math.floor((seconds % 3600) / 60);
+            let s = seconds % 60;
+            return ${h}h ${m < 10 ? '0' + m : m}m ${s < 10 ? '0' + s : s}s; // Corrected template literal syntax
+        }
 
-body.on .bulb {
-    background: #fff;
-    box-shadow:
-        0 0 30px #fff, /* Reduced glow effect */
-        0 0 50px #fff,
-        0 0 70px #fff;
-}
+        function startCountdown() {
+            body.classList.add('on'); // Turn on the light
+            startBtn.disabled = true; // Disable the button while counting down
 
-.bulb::before {
-    content: '';
-    position: absolute;
-    top: -30px; /* Adjusted for smaller view */
-    left: 15px; /* Adjusted for smaller view */
-    width: 25px; /* Reduced wire size */
-    height: 60px; /* Adjusted wire size */
-    background: #444;
-    border-top: 20px solid #000; /* Reduced wire thickness */
-    border-radius: 10px;
-}
+            countdownInterval = setInterval(() => {
+                countdownTime--;
+                startBtn.innerText = formatTime(countdownTime); // Update button text with formatted time
 
-body.on .bulb::before {
-    background: #fff;
-}
+                if (countdownTime <= 0) {
+                    clearInterval(countdownInterval);
+                    startBtn.innerText = '0h 00m 00s'; // Final display when countdown ends
+                    body.classList.remove('on'); // Turn off the light when countdown ends
+                    startBtn.disabled = false; // Enable the button again
+                    clearInterval(interval); // Stop the counter incrementing
+                }
+            }, 1000);
+        }
 
-body.on .bulb::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90px; /* Reduced outer glow */
-    height: 90px; /* Reduced outer glow */
-    background: #fff;
-    border-radius: 50%;
-    filter: blur(30px); /* Reduced blur effect */
-}
-
-.bulb span:nth-child(1),
-.bulb span:nth-child(2) {
-    position: absolute;
-    display: block;
-    width: 20px; /* Reduced shadow size */
-    height: 20px; /* Reduced shadow size */
-    background: transparent;
-    box-shadow: -15px 15px 0 5px #1; /* Adjusted shadow size */
-}
-
-.bulb span:nth-child(1) {
-    top: -10px;
-    left: -2px;
-    transform: rotate(342deg);
-    border-bottom-right-radius: 30px; /* Adjusted rounding */
-}
-
-.bulb span:nth-child(2) {
-    top: -10px;
-    right: -2px;
-    transform: rotate(17deg);
-    border-bottom-left-radius: 30px; /* Adjusted rounding */
-}
-
-.wire {
-    position: absolute;
-    left: calc(50% - 4px);
-    bottom: 50%;
-    width: 3px; /* Reduced wire width */
-    height: 50vh; /* Adjusted for smaller view */
-    background: #000;
-}
-
-.btn {
-    position: absolute;
-    bottom: 80px; /* Adjusted position */
-    left: 50%;
-    transform: translateX(-50%); /* Center horizontally */
-    padding: 8px 16px; /* Adjusted button padding */
-    font-size: 16px; /* Reduced font size */
-    background-color: #444;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s; /* Transition effect for hover */
-}
-
-.btn:hover {
-    background-color: #666; /* Slight hover effect */
-}
-
-/* Menu Bar Styles */
-.menu-bar {
-    position: absolute;
-    bottom: 0; /* Stick to bottom */
-    left: 0;
-    right: 0;
-    background: #333; /* Dark background */
-    display: flex;
-    justify-content: space-around; /* Space items evenly */
-    padding: 10px 0; /* Vertical padding */
-}
-
-.menu-item {
-    color: #fff; /* White text */
-    text-align: center; /* Center the text */
-}
-
-.menu-icon {
-    width: 24px; /* Icon size */
-    height: 24px; /* Icon size */
-    margin-bottom: 5px; /* Spacing between icon and text */
-}
+        startBtn.onclick = function() {
+            if (!body.classList.contains('on')) {
+                // Start the countdown
+                countdownTime = 21600; // Reset to 6 hours
+                startBtn.innerText = formatTime(countdownTime); // Reset button text
+                startCountdown();
+                
+                // Start the counter at the top
+                interval = setInterval(() => {
+                    counter++;
+                    counterDisplay.innerText = counter; // Update display with the new counter value
+                }, 1000);
+            }
+        }
+    </script>
+</body>
+</html>
