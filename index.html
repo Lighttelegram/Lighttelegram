@@ -70,7 +70,6 @@
         let startBtn = document.getElementById('startBtn');
         let counter = 1000; // Default starting counter
         let interval; // For counter incrementing
-        let countdownInterval; // For countdown
         let countdownTime = 21600; // 6 hours in seconds (21600 seconds)
         let isCounting = false; // Flag to check if counting is active
 
@@ -86,23 +85,28 @@
         function startCountdown() {
             body.classList.add('on');
             startBtn.disabled = true;
-            const startTime = Date.now();
-            localStorage.setItem('startTime', startTime);
+            const endTime = Date.now() + countdownTime * 1000; // Calculate the end time
+            localStorage.setItem('endTime', endTime);
             localStorage.setItem('counter', counter);
             isCounting = true;
-
-            countdownInterval = setInterval(() => {
-                countdownTime--;
-                startBtn.innerText = formatTime(countdownTime);
-                if (countdownTime <= 0) {
-                    endCountdown();
-                }
-            }, 1000);
 
             interval = setInterval(() => {
                 counter++;
                 counterDisplay.innerText = counter;
                 localStorage.setItem('counter', counter); // Save updated counter
+            }, 1000);
+
+            // Update the countdown every second
+            const countdownInterval = setInterval(() => {
+                const currentTime = Date.now();
+                const remainingTime = Math.floor((endTime - currentTime) / 1000); // Calculate remaining time
+
+                if (remainingTime <= 0) {
+                    clearInterval(countdownInterval);
+                    endCountdown();
+                } else {
+                    startBtn.innerText = formatTime(remainingTime);
+                }
             }, 1000);
         }
 
@@ -114,13 +118,13 @@
         }
 
         function restoreCountdown() {
-            const savedStartTime = localStorage.getItem('startTime');
-            if (savedStartTime) {
-                const timeElapsed = Math.floor((Date.now() - parseInt(savedStartTime, 10)) / 1000);
-                countdownTime = 21600 - timeElapsed;
-
-                if (countdownTime > 0) {
-                    startBtn.innerText = formatTime(countdownTime);
+            const savedEndTime = localStorage.getItem('endTime');
+            if (savedEndTime) {
+                const currentTime = Date.now();
+                const remainingTime = Math.floor((parseInt(savedEndTime, 10) - currentTime) / 1000);
+                
+                if (remainingTime > 0) {
+                    startBtn.innerText = formatTime(remainingTime);
                     startCountdown();
                 } else {
                     endCountdown(); // If time has elapsed, reset
@@ -130,13 +134,11 @@
 
         // End countdown and reset state
         function endCountdown() {
-            clearInterval(countdownInterval);
             clearInterval(interval);
             startBtn.innerText = '0h 00m 00s';
             body.classList.remove('on');
             startBtn.disabled = false;
-            localStorage.removeItem('startTime');
-            localStorage.removeItem('counter');
+            localStorage.removeItem('endTime');
             isCounting = false;
         }
 
