@@ -13,22 +13,22 @@
             left: 0;
             width: 100%;
             height: 100vh;
-            background-color: #222; /* Dark background */
+            background-color: #222;
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 10; /* Ensure it's above other content */
+            z-index: 10;
         }
         .loading-image {
-            width: 200px; /* Adjust size as needed */
+            width: 200px;
             height: auto;
         }
     </style>
 </head>
-<body style="display: none;"> <!-- Initially hidden to show loading screen first -->
+<body style="display: none;">
     <!-- Loading screen -->
     <div class="loading-screen" id="loadingScreen">
-        <img src="ad.jpeg" alt="Loading Lightbulb" class="loading-image"> <!-- Replace with the actual path if different -->
+        <img src="ad.jpeg" alt="Loading Lightbulb" class="loading-image">
     </div>
 
     <!-- Main content -->
@@ -40,8 +40,8 @@
         </div>
     </div>
     
-    <div class="counter" id="counter">1000</div> <!-- Counter display -->
-    <button class="btn" id="startBtn">6h 00m 00s</button> <!-- Button to start countdown -->
+    <div class="counter" id="counter">1000</div>
+    <button class="btn" id="startBtn">6h 00m 00s</button>
 
     <div class="menu-bar">
         <div class="menu-item">Home</div>
@@ -52,28 +52,23 @@
     </div>
 
     <script>
-        // Show loading screen and then reveal main content
         window.onload = function() {
             setTimeout(() => {
-                document.getElementById('loadingScreen').style.display = 'none'; // Hide loading screen
-                document.body.style.display = 'flex'; // Show main content
+                document.getElementById('loadingScreen').style.display = 'none';
+                document.body.style.display = 'flex';
 
-                // Restore counter and countdown on load
                 restoreCounter();
                 restoreCountdown();
-            }, 2000); // Wait for 2 seconds before showing content
+            }, 2000);
         };
 
-        // Initialize variables
-        let body = document.querySelector('body');
         let counterDisplay = document.getElementById('counter');
         let startBtn = document.getElementById('startBtn');
-        let counter = parseInt(localStorage.getItem('counter')) || 1000; // Default starting counter
-        let countdownDuration = 21600; // 6 hours in seconds
-        let endTime; // To store the end time of the countdown
-        let countdownInterval; // For countdown
+        let counter = parseInt(localStorage.getItem('counter')) || 1000;
+        let countdownDuration = 21600;
+        let endTime;
+        let countdownInterval;
 
-        // Format time for display
         function formatTime(seconds) {
             let h = Math.floor(seconds / 3600);
             let m = Math.floor((seconds % 3600) / 60);
@@ -81,37 +76,31 @@
             return `${h}h ${m < 10 ? '0' + m : m}m ${s < 10 ? '0' + s : s}s`;
         }
 
-        // Start the countdown and counter increment
         function startCountdown() {
-            body.classList.add('on');
             startBtn.disabled = true;
 
-            // Set end time
             endTime = Date.now() + countdownDuration * 1000;
-            localStorage.setItem('endTime', endTime); // Store end time
+            localStorage.setItem('endTime', endTime);
 
-            // Start the countdown
             countdownInterval = setInterval(() => {
                 const remainingTime = Math.max(Math.floor((endTime - Date.now()) / 1000), 0);
                 if (remainingTime > 0) {
                     startBtn.innerText = formatTime(remainingTime);
-                    localStorage.setItem('countdownTime', remainingTime); // Save remaining time
+                    localStorage.setItem('countdownTime', remainingTime);
                 } else {
                     endCountdown();
                 }
             }, 1000);
 
-            // Increment counter every second
             setInterval(() => {
-                if (localStorage.getItem('countdownTime') > 0) { // Only increment if countdown is active
+                if (localStorage.getItem('countdownTime') > 0) {
                     counter++;
                     counterDisplay.innerText = counter;
-                    localStorage.setItem('counter', counter); // Save updated counter
+                    localStorage.setItem('counter', counter);
                 }
             }, 1000);
         }
 
-        // Restore counter from localStorage
         function restoreCounter() {
             counterDisplay.innerText = counter;
         }
@@ -120,33 +109,30 @@
             const savedEndTime = localStorage.getItem('endTime');
             if (savedEndTime) {
                 endTime = parseInt(savedEndTime, 10);
-                const remainingTime = Math.max(Math.floor((endTime - Date.now()) / 1000), 0); // Calculate remaining time
+                const remainingTime = Math.max(Math.floor((endTime - Date.now()) / 1000), 0);
 
                 if (remainingTime > 0) {
                     startBtn.innerText = formatTime(remainingTime);
                     startCountdown();
                 } else {
-                    endCountdown(); // If time has elapsed, reset
+                    endCountdown();
                 }
             } else {
-                startBtn.innerText = formatTime(countdownDuration); // Reset to 6 hours display if no saved countdown
+                startBtn.innerText = formatTime(countdownDuration);
             }
         }
 
-        // End countdown and reset state
         function endCountdown() {
             clearInterval(countdownInterval);
             startBtn.innerText = '0h 00m 00s';
-            body.classList.remove('on');
             startBtn.disabled = false;
-            localStorage.removeItem('endTime'); // Remove countdown end time from localStorage when done
-            localStorage.removeItem('countdownTime'); // Remove countdown from localStorage when done
+            localStorage.removeItem('endTime');
+            localStorage.removeItem('countdownTime');
         }
 
-        // Button click to start countdown and counter
         startBtn.onclick = function() {
-            if (!body.classList.contains('on')) {
-                startCountdown(); // Start countdown
+            if (!document.body.classList.contains('on')) {
+                startCountdown();
             }
         };
     </script>
