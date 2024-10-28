@@ -72,6 +72,7 @@
         let interval; // For counter incrementing
         let countdownInterval; // For countdown
         let countdownTime = 21600; // 6 hours in seconds (21600 seconds)
+        let isCounting = false; // Flag to check if counting is active
 
         // Format time for display
         function formatTime(seconds) {
@@ -88,6 +89,7 @@
             const startTime = Date.now();
             localStorage.setItem('startTime', startTime);
             localStorage.setItem('counter', counter);
+            isCounting = true;
 
             countdownInterval = setInterval(() => {
                 countdownTime--;
@@ -135,11 +137,12 @@
             startBtn.disabled = false;
             localStorage.removeItem('startTime');
             localStorage.removeItem('counter');
+            isCounting = false;
         }
 
         // Button click to start countdown and counter
         startBtn.onclick = function() {
-            if (!body.classList.contains('on')) {
+            if (!isCounting) {
                 countdownTime = 21600; // Reset to 6 hours
                 startBtn.innerText = formatTime(countdownTime);
                 startCountdown();
