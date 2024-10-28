@@ -59,7 +59,7 @@
                 document.body.style.display = 'flex'; // Show main content
                 restoreCounter(); // Restore counter from localStorage
                 restoreCountdown(); // Restore countdown from localStorage
-                startCounter(); // Start the counter
+                startCounter(); // Start the counter incrementing
             }, 2000); // Wait for 2 seconds before showing content
         };
 
@@ -68,7 +68,7 @@
         let counterDisplay = document.getElementById('counter');
         let startBtn = document.getElementById('startBtn');
         let counter = parseInt(localStorage.getItem('counter')) || 1000; // Load initial counter from localStorage
-        let countdownTime = 21600; // 6 hours in seconds (21600 seconds)
+        let countdownTime = parseInt(localStorage.getItem('countdownTime')) || 21600; // Load initial countdown from localStorage (6 hours)
         let countdownInterval; // For the countdown
         let isCountdownActive = false; // To track if countdown is active
 
@@ -83,8 +83,8 @@
         // Start the counter that increments every second
         function startCounter() {
             setInterval(() => {
-                if (!isCountdownActive) {
-                    counter++;
+                if (isCountdownActive && countdownTime > 0) {
+                    counter++; // Increment counter
                     counterDisplay.innerText = counter; // Update display with the new counter value
                     localStorage.setItem('counter', counter); // Save updated counter to localStorage
                 }
@@ -101,7 +101,7 @@
             const savedTime = localStorage.getItem('countdownTime');
             if (savedTime) {
                 const timeElapsed = Math.floor((Date.now() - parseInt(savedTime, 10)) / 1000);
-                countdownTime -= timeElapsed;
+                countdownTime -= timeElapsed; // Subtract elapsed time
                 if (countdownTime <= 0) {
                     countdownTime = 0; // Ensure it doesn't go negative
                     endCountdown();
@@ -110,6 +110,8 @@
                     isCountdownActive = true;
                     startCountdown(); // Start countdown
                 }
+            } else {
+                startBtn.innerText = formatTime(countdownTime); // Set initial countdown display
             }
         }
 
@@ -121,6 +123,7 @@
             countdownInterval = setInterval(() => {
                 countdownTime--;
                 startBtn.innerText = formatTime(countdownTime);
+                localStorage.setItem('countdownTime', Date.now().toString()); // Update time in localStorage
                 if (countdownTime <= 0) {
                     endCountdown();
                 }
