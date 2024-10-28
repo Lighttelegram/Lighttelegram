@@ -69,9 +69,8 @@
         let counterDisplay = document.getElementById('counter');
         let startBtn = document.getElementById('startBtn');
         let counter = parseInt(localStorage.getItem('counter')) || 1000; // Default starting counter
-        let countdownTime = parseInt(localStorage.getItem('countdownTime')) || 21600; // Default 6 hours in seconds
         let countdownInterval; // For countdown
-        let counterInterval; // For counter increment
+        let countdownTime = 21600; // 6 hours in seconds (21600 seconds)
 
         // Format time for display
         function formatTime(seconds) {
@@ -81,66 +80,74 @@
             return `${h}h ${m < 10 ? '0' + m : m}m ${s < 10 ? '0' + s : s}s`;
         }
 
-        // Start the countdown and counter increment
+        // Start the countdown
         function startCountdown() {
             body.classList.add('on');
             startBtn.disabled = true;
 
-            // Countdown interval
             countdownInterval = setInterval(() => {
                 countdownTime--;
                 startBtn.innerText = formatTime(countdownTime);
-
-                // Save countdown time to localStorage
-                localStorage.setItem('countdownTime', countdownTime);
-
+                
                 if (countdownTime <= 0) {
+                    clearInterval(countdownInterval);
                     endCountdown();
                 }
-            }, 1000);
-
-            // Counter increment interval
-            counterInterval = setInterval(() => {
-                counter++;
-                counterDisplay.innerText = counter;
-
-                // Save updated counter to localStorage
-                localStorage.setItem('counter', counter);
+                
+                // Save countdown time in local storage
+                localStorage.setItem('countdownTime', countdownTime);
             }, 1000);
         }
 
         // Restore counter and countdown from localStorage
         function restoreCounter() {
-            counterDisplay.innerText = counter; // Display the restored counter
+            counterDisplay.innerText = counter; // Display restored counter
         }
 
         function restoreCountdown() {
-            if (countdownTime > 0) {
-                startBtn.innerText = formatTime(countdownTime);
-                startCountdown();
+            const savedCountdownTime = localStorage.getItem('countdownTime');
+            if (savedCountdownTime) {
+                countdownTime = parseInt(savedCountdownTime, 10);
+                if (countdownTime > 0) {
+                    startBtn.innerText = formatTime(countdownTime);
+                    startCountdown();
+                } else {
+                    startBtn.innerText = '0h 00m 00s';
+                    endCountdown(); // Reset if time has elapsed
+                }
             } else {
-                startBtn.innerText = '0h 00m 00s'; // Reset button text if countdown has ended
+                startBtn.innerText = formatTime(countdownTime); // Set initial button text
             }
         }
 
         // End countdown and reset state
         function endCountdown() {
             clearInterval(countdownInterval);
-            clearInterval(counterInterval);
             startBtn.innerText = '0h 00m 00s';
             body.classList.remove('on');
             startBtn.disabled = false;
-
-            // Remove countdown time from localStorage when the countdown ends
             localStorage.removeItem('countdownTime');
         }
 
         // Button click to start countdown and counter
         startBtn.onclick = function() {
             if (!body.classList.contains('on')) {
-                startCountdown(); // Start countdown and counter
+                startCountdown();
+                
+                // Start incrementing counter
+                setInterval(() => {
+                    counter++;
+                    counterDisplay.innerText = counter; // Update display with the new counter value
+                    localStorage.setItem('counter', counter); // Save updated counter
+                }, 1000);
             }
         };
+
+        // Load counter from local storage on page load
+        if (localStorage.getItem('counter')) {
+            counter = parseInt(localStorage.getItem('counter'));
+            counterDisplay.innerText = counter;
+        }
     </script>
 </body>
 </html>
