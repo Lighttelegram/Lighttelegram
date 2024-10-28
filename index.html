@@ -25,10 +25,10 @@
         }
     </style>
 </head>
-<body style="display: none;">
+<body style="display: none;"> <!-- Initially hidden to show loading screen first -->
     <!-- Loading screen -->
     <div class="loading-screen" id="loadingScreen">
-        <img src="ad.jpeg" alt="Loading Lightbulb" class="loading-image">
+        <img src="ad.jpeg" alt="Loading Lightbulb" class="loading-image"> <!-- Replace with the actual path if different -->
     </div>
 
     <!-- Main content -->
@@ -40,7 +40,7 @@
         </div>
     </div>
     
-    <div class="counter" id="counter">1000</div> <!-- Initial counter display -->
+    <div class="counter" id="counter">1000</div> <!-- Counter display -->
     <button class="btn" id="startBtn">6h 00m 00s</button> <!-- Button to start countdown -->
 
     <div class="menu-bar">
@@ -57,99 +57,78 @@
             setTimeout(() => {
                 document.getElementById('loadingScreen').style.display = 'none'; // Hide loading screen
                 document.body.style.display = 'flex'; // Show main content
-
-                // Restore counter and countdown on load
-                restoreCounter();
-            }, 2000);
+                loadState(); // Load counter and countdown state
+            }, 2000); // Wait for 2 seconds before showing content
         };
 
-        // Variables
+        // Main script
         let body = document.querySelector('body');
         let counterDisplay = document.getElementById('counter');
         let startBtn = document.getElementById('startBtn');
-        let countdownTime = 21600; // 6 hours in seconds
+        let counter = parseInt(localStorage.getItem('counter')) || 1000; // Load initial counter from localStorage
         let interval; // For the counting upwards
         let countdownInterval; // For the countdown
-        let counter = 1000; // Initial counter value
+        let countdownTime = parseInt(localStorage.getItem('countdownTime')) || 21600; // Load countdown time or set to 6 hours
+        let isCounting = false; // To track if the countdown is active
 
         function formatTime(seconds) {
             let h = Math.floor(seconds / 3600);
             let m = Math.floor((seconds % 3600) / 60);
             let s = seconds % 60;
-            return `${h}h ${m < 10 ? '0' + m : m}m ${s < 10 ? '0' + s : s}s`; // Formatting time
+            return `${h}h ${m < 10 ? '0' + m : m}m ${s < 10 ? '0' + s : s}s`; // Corrected template literal syntax
         }
 
         function startCountdown() {
             body.classList.add('on'); // Turn on the light
             startBtn.disabled = true; // Disable the button while counting down
-            const startTime = Date.now();
-            localStorage.setItem('startTime', startTime);
+            isCounting = true; // Set counting state
 
-            // Set countdown interval
             countdownInterval = setInterval(() => {
-                const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
-                countdownTime = 21600 - elapsedSeconds; // Remaining time
-                startBtn.innerText = formatTime(countdownTime); // Update button text
+                countdownTime--;
+                localStorage.setItem('countdownTime', countdownTime); // Save the countdown time in localStorage
+                startBtn.innerText = formatTime(countdownTime); // Update button text with formatted time
 
                 if (countdownTime <= 0) {
                     clearInterval(countdownInterval);
-                    endCountdown();
+                    startBtn.innerText = '0h 00m 00s'; // Final display when countdown ends
+                    body.classList.remove('on'); // Turn off the light when countdown ends
+                    startBtn.disabled = false; // Enable the button again
+                    isCounting = false; // Reset counting state
+                    clearInterval(interval); // Stop the counter incrementing
                 }
-            }, 1000);
-
-            // Start counting the counter
-            updateCounter();
-        }
-
-        // Update counter based on elapsed time
-        function updateCounter() {
-            interval = setInterval(() => {
-                counter++;
-                counterDisplay.innerText = counter; // Update display with the new counter value
-                localStorage.setItem('counter', counter); // Save counter to localStorage
             }, 1000);
         }
 
-        // Restore counter and countdown from localStorage
-        function restoreCounter() {
-            const savedCounter = localStorage.getItem('counter');
-            if (savedCounter) {
-                counter = parseInt(savedCounter, 10); // Restore counter
-                counterDisplay.innerText = counter; // Update display
-            }
+        function loadState() {
+            counterDisplay.innerText = counter; // Set counter display to saved counter
+            startBtn.innerText = formatTime(countdownTime); // Set button text to saved countdown time
 
-            const savedStartTime = localStorage.getItem('startTime');
-            if (savedStartTime) {
-                const elapsedSeconds = Math.floor((Date.now() - parseInt(savedStartTime, 10)) / 1000);
-                countdownTime = 21600 - elapsedSeconds;
-
-                if (countdownTime > 0) {
-                    startBtn.innerText = formatTime(countdownTime); // Display remaining time
-                    startCountdown(); // Start countdown
-                } else {
-                    endCountdown(); // End countdown if time is up
-                }
+            // Check if a countdown is already in progress
+            if (countdownTime > 0 && !isCounting) {
+                startCountdown(); // Restart countdown if it's in progress
+                interval = setInterval(() => {
+                    counter++;
+                    counterDisplay.innerText = counter; // Update display with the new counter value
+                    localStorage.setItem('counter', counter); // Save the counter in localStorage
+                }, 1000);
             }
         }
 
-        function endCountdown() {
-            clearInterval(countdownInterval);
-            clearInterval(interval);
-            startBtn.innerText = '0h 00m 00s'; // Final display when countdown ends
-            body.classList.remove('on'); // Turn off the light
-            startBtn.disabled = false; // Enable the button again
-            localStorage.removeItem('startTime'); // Clear start time
-        }
-
-        // Button click to start countdown and counter
         startBtn.onclick = function() {
-            if (!body.classList.contains('on')) {
-                // Reset countdown time to 6 hours
-                countdownTime = 21600;
+            if (!isCounting) {
+                // Start the countdown
+                countdownTime = 21600; // Reset to 6 hours
                 startBtn.innerText = formatTime(countdownTime); // Reset button text
                 startCountdown();
+                
+                // Start the counter at the top
+                interval = setInterval(() => {
+                    counter++;
+                    counterDisplay.innerText = counter; // Update display with the new counter value
+                    localStorage.setItem('counter', counter); // Save the counter in localStorage
+                }, 1000);
             }
-        };
+        }
     </script>
 </body>
 </html>
