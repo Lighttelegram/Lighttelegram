@@ -270,7 +270,7 @@
         
         document.getElementById('startBtn').onclick = function () {
             if (!document.body.classList.contains('on')) {
-                countdownTime = 5; // Reset countdown time for a new start
+                countdownTime = 6h 00m 00s ; // Reset countdown time for a new start
                 localStorage.setItem('countdownTime', countdownTime);
                 localStorage.setItem('counter', counter); // Store initial counter state
                 localStorage.setItem('startTime', Date.now()); // Set the start time
@@ -284,7 +284,7 @@
             clearInterval(interval);
             localStorage.clear(); // Clear local storage
             counter = 1000; // Reset counter
-            countdownTime = 5; // Reset countdown time
+            countdownTime = 6h 00m 00s; // Reset countdown time
         
             // Reset UI
             document.getElementById('counter').innerText = counter;
