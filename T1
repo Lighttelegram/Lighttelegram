@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Task Page</h1>
+    <p>Welcome to the Task Page!</p>
+
+    <!-- Menu Bar -->
+    <div class="menu-bar">
+        <a href="index.html" class="menu-item">Home</a>
+        <a href="task.html" class="menu-item">Task</a>
+        <a href="friend.html" class="menu-item">Friend</a>
+        <a href="earn.html" class="menu-item">Earn</a>
+        <a href="wallet.html" class="menu-item">Wallet</a>
+    </div>
+</body>
+</html>
