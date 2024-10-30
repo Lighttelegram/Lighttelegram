@@ -8,156 +8,157 @@
     <link rel="stylesheet" href="style.css" />
     <style>
         /* Loading screen styles */
-            .loading-screen {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100vh;
-                background-color: #222;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                z-index: 10;
-            }
-            .loading-image {
-                width: 200px;
-                height: auto;
-            }
-            /* General Styles */
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
-            body {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                min-height: 100vh;
-                background: #222;
-                position: relative;
-            }
-            .light {
-                margin-bottom: 10px;
-            }
-            .counter {
-                position: absolute;
-                top: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                color: #fff;
-                font-size: 20px;
-            }
-            .bulb {
-                position: relative;
-                width: 60px;
-                height: 60px;
-                background: #444;
-                border-radius: 50%;
-                z-index: 2;
-            }
-            .bulb.on {
-                background: radial-gradient(#555, #111);
-            }
-            body.on .bulb {
-                background: #fefefe;
-                box-shadow: 0 0 40px #fff, 0 0 80px #fff, 0 0 100px #ff0;
-            }
-            .bulb::before {
-                content: "";
-                position: absolute;
-                top: -30px;
-                left: 15px;
-                width: 25px;
-                height: 60px;
-                background: #444;
-                border-top: 20px solid #000;
-                border-radius: 10px;
-            }
-            body.on .bulb::before {
-                background: #fff;
-            }
-            body.on .bulb::after {
-                content: "";
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                width: 110px;
-                height: 110px;
-                background: #fff;
-                border-radius: 50%;
-                filter: blur(40px);
-            }
-            .bulb span:nth-child(1),
-            .bulb span:nth-child(2) {
-                position: absolute;
-                display: block;
-                width: 20px;
-                height: 20px;
-                background: transparent;
-                box-shadow: -15px 15px 0 5px #1;
-            }
-            .bulb span:nth-child(1) {
-                top: -10px;
-                left: -2px;
-                transform: rotate(342deg);
-                border-bottom-right-radius: 30px;
-            }
-            .bulb span:nth-child(2) {
-                top: -10px;
-                right: -2px;
-                transform: rotate(17deg);
-                border-bottom-left-radius: 30px;
-            }
-            .wire {
-                position: absolute;
-                left: calc(50% - 4px);
-                bottom: 50%;
-                width: 3px;
-                height: 50vh;
-                background: #000;
-            }
-            .btn {
-                position: absolute;
-                bottom: 80px;
-                left: 50%;
-                transform: translateX(-50%);
-                padding: 8px 16px;
-                font-size: 16px;
-                background-color: #444;
-                color: white;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                transition: background-color 0.3s;
-            }
-            .btn:hover {
-                background-color: #666;
-            }
-            .btn:disabled {
-                background-color: #666;
-                color: #bbb;
-                cursor: not-allowed;
-                opacity: 0.7;
-            }
-            /* Menu Bar Styles */
-            .menu-bar {
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                background: #333;
-                display: flex;
-                justify-content: space-around;
-                padding: 10px 0;
-            }
-            .menu-item {
-                color: #fff;
-                text-align: center;
-            }
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+        .loading-image {
+            width: 200px;
+            height: auto;
+        }
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #222;
+            position: relative;
+        }
+        .light {
+            margin-bottom: 10px;
+        }
+        .counter {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            font-size: 20px;
+        }
+        .bulb {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            background: #444;
+            border-radius: 50%;
+            z-index: 2;
+        }
+        .bulb.on {
+            background: radial-gradient(#555, #111);
+        }
+        body.on .bulb {
+            background: #fefefe;
+            box-shadow: 0 0 40px #fff, 0 0 80px #fff, 0 0 100px #ff0;
+        }
+        .bulb::before {
+            content: "";
+            position: absolute;
+            top: -30px;
+            left: 15px;
+            width: 25px;
+            height: 60px;
+            background: #444;
+            border-top: 20px solid #000;
+            border-radius: 10px;
+        }
+        body.on .bulb::before {
+            background: #fff;
+        }
+        body.on .bulb::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 110px;
+            height: 110px;
+            background: #fff;
+            border-radius: 50%;
+            filter: blur(40px);
+        }
+        .bulb span:nth-child(1),
+        .bulb span:nth-child(2) {
+            position: absolute;
+            display: block;
+            width: 20px;
+            height: 20px;
+            background: transparent;
+            box-shadow: -15px 15px 0 5px #1;
+        }
+        .bulb span:nth-child(1) {
+            top: -10px;
+            left: -2px;
+            transform: rotate(342deg);
+            border-bottom-right-radius: 30px;
+        }
+        .bulb span:nth-child(2) {
+            top: -10px;
+            right: -2px;
+            transform: rotate(17deg);
+            border-bottom-left-radius: 30px;
+        }
+        .wire {
+            position: absolute;
+            left: calc(50% - 4px);
+            bottom: 50%;
+            width: 3px;
+            height: 50vh;
+            background: #000;
+        }
+        .btn {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 8px 16px;
+            font-size: 16px;
+            background-color: #444;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #666;
+        }
+        .btn:disabled {
+            background-color: #666;
+            color: #bbb;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        /* Menu Bar Styles */
+        .menu-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #333;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+        }
+        .menu-item {
+            color: #fff;
+            text-align: center;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -177,12 +178,18 @@
     <div class="counter" id="counter">1000</div>
     <button class="btn" id="startBtn">6h 00m 00s</button>
     <div class="menu-bar">
-        <div class="menu-item">Home</div>
-        <div class="menu-item">Task</div>
-        <div class="menu-item">Friend</div>
-        <div class="menu-item">Earn</div>
-        <div class="menu-item">Wallet</div>
+        <div class="menu-item" onclick="showPage('home')">Home</div>
+        <div class="menu-item" onclick="showPage('task')">Task</div>
+        <div class="menu-item" onclick="showPage('friend')">Friend</div>
+        <div class="menu-item" onclick="showPage('earn')">Earn</div>
+        <div class="menu-item" onclick="showPage('wallet')">Wallet</div>
     </div>
+    
+    <div class="content" id="content">
+        <h1>Welcome to the Home Page!</h1>
+        <p>This is the homepage content.</p>
+    </div>
+
     <script>
         // JavaScript to handle countdown and counter persistence
         window.onload = function () {
@@ -222,7 +229,7 @@
         };
         
         let counter = 1000;
-        let countdownTime = 5; // 6 hours in seconds
+        let countdownTime = 21600; // 6 hours in seconds
         let interval, countdownInterval;
         
         function formatTime(seconds) {
@@ -278,23 +285,36 @@
             }
         };
         
-        // Reset functionality
-        document.getElementById('resetBtn').onclick = function () {
-            clearInterval(countdownInterval);
-            clearInterval(interval);
-            localStorage.clear(); // Clear local storage
-            counter = 1000; // Reset counter
-            countdownTime = 21600; // Reset countdown time
-        
-            // Reset UI
-            document.getElementById('counter').innerText = counter;
-            document.getElementById('startBtn').innerText = formatTime(countdownTime);
-            document.body.classList.remove('on'); // Turn off the light
-            document.getElementById('startBtn').disabled = false; // Enable start button
-        
-            // Ensure that the interval is cleared
-            interval = null; // Reset interval reference
-        };
+        // Show page content based on menu selection
+        function showPage(page) {
+            const contentDiv = document.getElementById('content');
+            if (page === 'home') {
+                contentDiv.innerHTML = `
+                    <h1></h1>
+                    <p></p>
+                `;
+            } else if (page === 'task') {
+                contentDiv.innerHTML = `
+                    <h1>Task Page</h1>
+                    <p>This is the content for the Task page.</p>
+                `;
+            } else if (page === 'friend') {
+                contentDiv.innerHTML = `
+                    <h1>Friend Page</h1>
+                    <p>This is the content for the Friend page.</p>
+                `;
+            } else if (page === 'earn') {
+                contentDiv.innerHTML = `
+                    <h1>Earn Page</h1>
+                    <p>This is the content for the Earn page.</p>
+                `;
+            } else if (page === 'wallet') {
+                contentDiv.innerHTML = `
+                    <h1>Wallet Page</h1>
+                    <p>This is the content for the Wallet page.</p>
+                `;
+            }
+        }
     </script>
 
 </body>
