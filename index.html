@@ -64,32 +64,6 @@
             background: #fefefe;
             box-shadow: 0 0 40px #fff, 0 0 80px #fff, 0 0 100px #ff0;
         }
-        .bulb::before {
-            content: "";
-            position: absolute;
-            top: -30px;
-            left: 15px;
-            width: 25px;
-            height: 60px;
-            background: #444;
-            border-top: 20px solid #000;
-            border-radius: 10px;
-        }
-        body.on .bulb::before {
-            background: #fff;
-        }
-        body.on .bulb::after {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 110px;
-            height: 110px;
-            background: #fff;
-            border-radius: 50%;
-            filter: blur(40px);
-        }
         .menu-bar {
             position: absolute;
             bottom: 0;
@@ -111,6 +85,9 @@
             text-align: center;
             margin-top: 20px;
         }
+        #home {
+            display: block; /* Keep Home page visible */
+        }
         section.active {
             display: block;
         }
@@ -122,12 +99,20 @@
         <img src="ad.jpeg" alt="Loading Lightbulb" class="loading-image" />
     </div>
     
-    <!-- Main content sections -->
-    <section id="home" class="active">
-        <h1>Home</h1>
-        <p>Welcome to the Home page.</p>
-    </section>
+    <!-- Main content for Home page -->
+    <div id="home">
+        <div class="light">
+            <div class="wire"></div>
+            <div class="bulb">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="counter" id="counter">1000</div>
+        <button class="btn" id="startBtn">6h 00m 00s</button>
+    </div>
     
+    <!-- Other sections (initially hidden) -->
     <section id="task">
         <h1>Task</h1>
         <p>This is the Task page.</p>
@@ -166,13 +151,18 @@
 
         // JavaScript to handle section switching
         function showSection(sectionId) {
-            // Hide all sections
+            // Hide all sections except Home
             document.querySelectorAll('section').forEach(section => {
                 section.classList.remove('active');
             });
 
-            // Show the selected section
-            document.getElementById(sectionId).classList.add('active');
+            // Show selected section and keep Home visible if it's chosen
+            if (sectionId === 'home') {
+                document.getElementById('home').style.display = 'block';
+            } else {
+                document.getElementById('home').style.display = 'none';
+                document.getElementById(sectionId).classList.add('active');
+            }
         }
     </script>
 </body>
