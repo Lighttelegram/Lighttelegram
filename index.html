@@ -156,7 +156,7 @@
     </div>
     <div class="counter" id="counter">1000</div>
     <button class="btn" id="startBtn">6h 00m 00s</button>
-    <div class="menu bar">
+    <div class="menu-bar">
         <div class="menu-item" onclick="showPage('home')">Home</div>
         <div class="menu-item" onclick="showPage('task')">Task</div>
         <div class="menu-item" onclick="showPage('friend')">Friend</div>
@@ -217,7 +217,7 @@
             let h = Math.floor(seconds / 3600);
             let m = Math.floor((seconds % 3600) / 60);
             let s = seconds % 60;
-            return `${h}h ${m < 10 ? '0' + m : m}m ${s < 10 ? '0' + s : s}s`;
+            return ${h}h ${m < 10 ? '0' + m : m}m ${s < 10 ? '0' + s : s}s;
         }
         
         function updateCounterAndTime() {
@@ -287,20 +287,20 @@
             // Update content based on selected page
             if (page === 'home') {
                 contentDiv.innerHTML = 
-                    `<h1></h1>
-                    <p></p>`;
+                    <h1></h1>
+                    <p></p>;
             } else if (page === 'task') {
                 contentDiv.innerHTML = 
-                    `<h1></h1>
-                    <p></p>`;
+                    <h1></h1>
+                    <p></p>;
             } else if (page === 'friend') {
                 contentDiv.innerHTML = 
-                    `<h1></h1>
-                    <p></p>`;
+                    <h1></h1>
+                    <p></p>;
             } else if (page === 'wallet') {
                 contentDiv.innerHTML = 
-                    `<h1></h1>
-                    <p></p>`;
+                    <h1></h1>
+                    <p></p>;
             }
         }
     </script>
