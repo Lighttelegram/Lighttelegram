@@ -158,8 +158,8 @@
     <button class="btn" id="startBtn">6h 00m 00s</button>
     <div class="menu-bar">
         <div class="menu-item" onclick="showPage('home')">Home</div>
+        <div class="menu-item" onclick="showPage('task')">Task</div>
         <div class="menu-item" onclick="showPage('friend')">Friend</div>
-        <div class="menu-item" onclick="showPage('Task')">Earn</div>
         <div class="menu-item" onclick="showPage('wallet')">Wallet</div>
     </div>
     
@@ -270,46 +270,37 @@
         function showPage(page) {
             const contentDiv = document.getElementById('content');
             const lightContainer = document.getElementById('lightContainer');
-            const counter = document.getElementById('counter');
+            const counterDisplay = document.getElementById('counter');
             const startBtn = document.getElementById('startBtn');
 
             // Hide wire and lamp for certain pages
-            if (page === 'task' || page === 'earn' || page === 'friend' || page === 'wallet') {
+            if (page === 'task' || page === 'friend' || page === 'wallet') {
                 lightContainer.style.display = 'none';
-                counter.style.display = 'none';
+                counterDisplay.style.display = 'none';
                 startBtn.style.display = 'none';
             } else {
                 lightContainer.style.display = 'flex'; // Show light elements
-                counter.style.display = 'block';
+                counterDisplay.style.display = 'block';
                 startBtn.style.display = 'block';
             }
 
             // Update content based on selected page
             if (page === 'home') {
-                contentDiv.innerHTML = `
-                    <h1></h1>
-                    <p></p>
-                `;
+                contentDiv.innerHTML = 
+                    `<h1>Home Page</h1>
+                    <p>Welcome to the home page!</p>`;
             } else if (page === 'task') {
-                contentDiv.innerHTML = `
-                    <h1>Task Page</h1>
-                    <p>This is the content for the Task page.</p>
-                `;
+                contentDiv.innerHTML = 
+                    `<h1>Task Page</h1>
+                    <p>This is the content for the Task page.</p>`;
             } else if (page === 'friend') {
-                contentDiv.innerHTML = `
-                    <h1>Friend Page</h1>
-                    <p>This is the content for the Friend page.</p>
-                `;
-            } else if (page === 'earn') {
-                contentDiv.innerHTML = `
-                    <h1>Earn Page</h1>
-                    <p>This is the content for the Earn page.</p>
-                `;
+                contentDiv.innerHTML = 
+                    `<h1>Friend Page</h1>
+                    <p>This is the content for the Friend page.</p>`;
             } else if (page === 'wallet') {
-                contentDiv.innerHTML = `
-                    <h1>Wallet Page</h1>
-                    <p>This is the content for the Wallet page.</p>
-                `;
+                contentDiv.innerHTML = 
+                    `<h1>Wallet Page</h1>
+                    <p>This is the content for the Wallet page.</p>`;
             }
         }
     </script>
