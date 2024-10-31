@@ -91,27 +91,6 @@
             border-radius: 50%;
             filter: blur(40px);
         }
-        .bulb span:nth-child(1),
-        .bulb span:nth-child(2) {
-            position: absolute;
-            display: block;
-            width: 20px;
-            height: 20px;
-            background: transparent;
-            box-shadow: -15px 15px 0 5px #1;
-        }
-        .bulb span:nth-child(1) {
-            top: -10px;
-            left: -2px;
-            transform: rotate(342deg);
-            border-bottom-right-radius: 30px;
-        }
-        .bulb span:nth-child(2) {
-            top: -10px;
-            right: -2px;
-            transform: rotate(17deg);
-            border-bottom-left-radius: 30px;
-        }
         .wire {
             position: absolute;
             left: calc(50% - 4px);
@@ -168,7 +147,7 @@
         <img src="ad.jpeg" alt="Loading Lightbulb" class="loading-image" />
     </div>
     <!-- Main content -->
-    <div class="light">
+    <div class="light" id="lightContainer">
         <div class="wire"></div>
         <div class="bulb">
             <span></span>
@@ -186,8 +165,8 @@
     </div>
     
     <div class="content" id="content">
-        <h1></h1>
-        <p></p>
+        <h1>Home Page</h1>
+        <p>Welcome to the home page!</p>
     </div>
 
     <script>
@@ -226,6 +205,9 @@
         
             // Hide loading screen
             document.getElementById('loadingScreen').style.display = 'none';
+            
+            // Show the home page initially
+            showPage('home');
         };
         
         let counter = 1000;
@@ -288,6 +270,22 @@
         // Show page content based on menu selection
         function showPage(page) {
             const contentDiv = document.getElementById('content');
+            const lightContainer = document.getElementById('lightContainer');
+            const counter = document.getElementById('counter');
+            const startBtn = document.getElementById('startBtn');
+
+            // Hide wire and lamp for certain pages
+            if (page === 'task' || page === 'earn' || page === 'friend' || page === 'wallet') {
+                lightContainer.style.display = 'none';
+                counter.style.display = 'none';
+                startBtn.style.display = 'none';
+            } else {
+                lightContainer.style.display = 'flex'; // Show light elements
+                counter.style.display = 'block';
+                startBtn.style.display = 'block';
+            }
+
+            // Update content based on selected page
             if (page === 'home') {
                 contentDiv.innerHTML = `
                     <h1></h1>
