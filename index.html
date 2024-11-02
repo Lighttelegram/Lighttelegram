@@ -20,16 +20,19 @@
             align-items: center;
             z-index: 10;
         }
+
         .loading-image {
             width: 200px;
             height: auto;
         }
+
         /* General Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             display: flex;
             flex-direction: column;
@@ -39,9 +42,11 @@
             background: #222;
             position: relative;
         }
+
         .light {
             margin-bottom: 10px;
         }
+
         .counter {
             position: absolute;
             top: 20px;
@@ -50,6 +55,7 @@
             color: #fff;
             font-size: 20px;
         }
+
         .bulb {
             position: relative;
             width: 60px;
@@ -58,13 +64,16 @@
             border-radius: 50%;
             z-index: 2;
         }
+
         .bulb.on {
             background: radial-gradient(#555, #111);
         }
+
         body.on .bulb {
             background: #fefefe;
             box-shadow: 0 0 40px #fff, 0 0 80px #fff, 0 0 100px #ff0;
         }
+
         .bulb::before {
             content: "";
             position: absolute;
@@ -76,9 +85,11 @@
             border-top: 20px solid #000;
             border-radius: 10px;
         }
+
         body.on .bulb::before {
             background: #fff;
         }
+
         body.on .bulb::after {
             content: "";
             position: absolute;
@@ -91,6 +102,7 @@
             border-radius: 50%;
             filter: blur(40px);
         }
+
         .wire {
             position: absolute;
             left: calc(50% - 4px);
@@ -99,6 +111,7 @@
             height: 50vh;
             background: #000;
         }
+
         .btn {
             position: absolute;
             bottom: 80px;
@@ -113,15 +126,18 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
+
         .btn:hover {
             background-color: #666;
         }
+
         .btn:disabled {
             background-color: #666;
             color: #bbb;
             cursor: not-allowed;
             opacity: 0.7;
         }
+
         /* Menu Bar Styles */
         .menu-bar {
             position: absolute;
@@ -133,10 +149,29 @@
             justify-content: space-around;
             padding: 10px 0;
         }
+
         .menu-item {
             color: #fff;
             text-align: center;
             cursor: pointer;
+        }
+
+        /* Friends table styles */
+        table {
+            margin-top: 20px;
+            border-collapse: collapse;
+            width: 80%;
+            color: #fff;
+        }
+
+        th, td {
+            border: 1px solid #444;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #444;
         }
     </style>
 </head>
@@ -162,28 +197,31 @@
         <div class="menu-item" onclick="showPage('friend')">Friend</div>
         <div class="menu-item" onclick="showPage('wallet')">Wallet</div>
     </div>
-    
+
     <div class="content" id="content">
         <h1>Home Page</h1>
         <p>Welcome to the home page!</p>
     </div>
 
     <script>
-        // JavaScript to handle countdown and counter persistence
+        // User ID (assumed to be unique for each user)
+        const userId = "your_user_id"; // Replace this with actual logic to get user's ID
+        let invitedFriends = JSON.parse(localStorage.getItem('invitedFriends')) || [];
+
         window.onload = function () {
             const savedTime = localStorage.getItem('countdownTime');
             const savedCounter = localStorage.getItem('counter');
             const startTime = localStorage.getItem('startTime');
-        
+
             // Check if there is a previous countdown
             if (savedTime && savedCounter && startTime) {
                 const currentTime = Date.now();
                 const elapsed = Math.floor((currentTime - startTime) / 1000);
                 counter = parseInt(savedCounter) + elapsed;
-        
+
                 // If countdown time has not expired, restore it
                 countdownTime = Math.max(0, savedTime - elapsed);
-        
+
                 // Update the UI if the countdown time is greater than 0
                 if (countdownTime > 0) {
                     document.body.style.display = 'flex';
@@ -201,25 +239,25 @@
                 document.getElementById('loadingScreen').style.display = 'none';
                 document.body.style.display = 'flex';
             }
-        
+
             // Hide loading screen
             document.getElementById('loadingScreen').style.display = 'none';
-            
+
             // Show the home page initially
             showPage('home');
         };
-        
+
         let counter = 1000;
         let countdownTime = 21600; // 6 hours in seconds
         let interval, countdownInterval;
-        
+
         function formatTime(seconds) {
             let h = Math.floor(seconds / 3600);
             let m = Math.floor((seconds % 3600) / 60);
             let s = seconds % 60;
             return `${h}h ${m < 10 ? '0' + m : m}m ${s < 10 ? '0' + s : s}s`;
         }
-        
+
         function updateCounterAndTime() {
             document.getElementById('counter').innerText = counter;
             document.getElementById('startBtn').innerText = formatTime(countdownTime);
@@ -227,26 +265,26 @@
             localStorage.setItem('countdownTime', countdownTime);
             localStorage.setItem('startTime', Date.now()); // Update startTime to current time
         }
-        
+
         function startCountdown() {
             document.body.classList.add('on');
             document.getElementById('startBtn').disabled = true;
-        
+
             countdownInterval = setInterval(() => {
                 countdownTime--;
                 updateCounterAndTime();
-        
+
                 if (countdownTime <= 0) {
                     clearInterval(countdownInterval);
                     document.body.classList.remove('on');
                     document.getElementById('startBtn').disabled = false; // Enable start button
-                    
+
                     // Stop the counter when the countdown ends
                     clearInterval(interval);
                     interval = null; // Reset interval reference
                 }
             }, 1000);
-        
+
             // Start the counter only once when starting the countdown
             if (!interval) {
                 interval = setInterval(() => {
@@ -255,7 +293,7 @@
                 }, 1000);
             }
         }
-        
+
         document.getElementById('startBtn').onclick = function () {
             if (!document.body.classList.contains('on')) {
                 countdownTime = 21600; // Reset countdown time for a new start
@@ -265,7 +303,7 @@
                 startCountdown();
             }
         };
-        
+
         // Show page content based on menu selection
         function showPage(page) {
             const contentDiv = document.getElementById('content');
@@ -286,22 +324,63 @@
 
             // Update content based on selected page
             if (page === 'home') {
-                contentDiv.innerHTML = 
-                    `<h1></h1>
-                    <p></p>`;
+                contentDiv.innerHTML =
+                    `<h1>Home Page</h1>
+                    <p>Welcome to the home page!</p>`;
             } else if (page === 'task') {
-                contentDiv.innerHTML = 
-                    `<h1></h1>
-                    <p></p>`;
+                contentDiv.innerHTML =
+                    `<h1>Task Page</h1>
+                    <p>This is the task page!</p>`;
             } else if (page === 'friend') {
-                contentDiv.innerHTML = 
-                    `<h1></h1>
-                    <p></p>`;
+                contentDiv.innerHTML = `
+                    <h1>Friend Page</h1>
+                    <p>Invite your friends to join!</p>
+                    <button id="inviteBtn" class="btn">Invite a Friend</button>
+                    <div id="referralLinkContainer" style="margin-top: 10px;"></div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>User ID</th>
+                            </tr>
+                        </thead>
+                        <tbody id="friendsList"></tbody>
+                    </table>
+                `;
+
+                // Invite friend button functionality
+                document.getElementById('inviteBtn').onclick = function () {
+                    const friendName = prompt("Enter your friend's name:");
+                    if (friendName) {
+                        const inviteLink = `https://t.me/makeyourworldbright_bot/Light_bot?ref=${userId}`;
+                        if (!invitedFriends.includes(friendName)) {
+                            invitedFriends.push(friendName);
+                            localStorage.setItem('invitedFriends', JSON.stringify(invitedFriends));
+                            displayInvitedFriends();
+                            document.getElementById('referralLinkContainer').innerText = `Your referral link: ${inviteLink}`;
+                        } else {
+                            alert("This friend has already been invited.");
+                        }
+                    }
+                };
+
+                // Display the invited friends
+                displayInvitedFriends();
             } else if (page === 'wallet') {
-                contentDiv.innerHTML = 
-                    `<h1></h1>
-                    <p></p>`;
+                contentDiv.innerHTML =
+                    `<h1>Wallet Page</h1>
+                    <p>This is the wallet page!</p>`;
             }
+        }
+
+        function displayInvitedFriends() {
+            const friendsList = document.getElementById('friendsList');
+            friendsList.innerHTML = ''; // Clear existing list
+            invitedFriends.forEach(friend => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${friend}</td><td>${userId}</td>`;
+                friendsList.appendChild(row);
+            });
         }
     </script>
 
