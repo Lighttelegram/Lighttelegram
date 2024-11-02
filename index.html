@@ -155,24 +155,6 @@
             text-align: center;
             cursor: pointer;
         }
-
-        /* Friends table styles */
-        table {
-            margin-top: 20px;
-            border-collapse: collapse;
-            width: 80%;
-            color: #fff;
-        }
-
-        th, td {
-            border: 1px solid #444;
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #444;
-        }
     </style>
 </head>
 
@@ -204,10 +186,7 @@
     </div>
 
     <script>
-        // User ID (assumed to be unique for each user)
-        const userId = "your_user_id"; // Replace this with actual logic to get user's ID
-        let invitedFriends = JSON.parse(localStorage.getItem('invitedFriends')) || [];
-
+        // JavaScript to handle countdown and counter persistence
         window.onload = function () {
             const savedTime = localStorage.getItem('countdownTime');
             const savedCounter = localStorage.getItem('counter');
@@ -230,7 +209,6 @@
                 } else {
                     // If countdown has ended, reset UI
                     document.body.style.display = 'flex'; // Show main content
-                    // Keep the counter value in local storage
                     document.getElementById('counter').innerText = counter; // Display current counter
                     document.getElementById('startBtn').innerText = 'Start'; // Change button text
                 }
@@ -255,7 +233,7 @@
             let h = Math.floor(seconds / 3600);
             let m = Math.floor((seconds % 3600) / 60);
             let s = seconds % 60;
-            return `${h}h ${m < 10 ? '0' + m : m}m ${s < 10 ? '0' + s : s}s`;
+            return `${h}h ${m < 10 ? '0' + m : m}m ${s < 10 ? '0' + s : s}s`; // Corrected template literal
         }
 
         function updateCounterAndTime() {
@@ -324,63 +302,22 @@
 
             // Update content based on selected page
             if (page === 'home') {
-                contentDiv.innerHTML =
+                contentDiv.innerHTML = 
                     `<h1>Home Page</h1>
                     <p>Welcome to the home page!</p>`;
             } else if (page === 'task') {
-                contentDiv.innerHTML =
+                contentDiv.innerHTML = 
                     `<h1>Task Page</h1>
-                    <p>This is the task page!</p>`;
+                    <p>Manage your tasks here.</p>`;
             } else if (page === 'friend') {
-                contentDiv.innerHTML = `
-                    <h1>Friend Page</h1>
-                    <p>Invite your friends to join!</p>
-                    <button id="inviteBtn" class="btn">Invite a Friend</button>
-                    <div id="referralLinkContainer" style="margin-top: 10px;"></div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>User ID</th>
-                            </tr>
-                        </thead>
-                        <tbody id="friendsList"></tbody>
-                    </table>
-                `;
-
-                // Invite friend button functionality
-                document.getElementById('inviteBtn').onclick = function () {
-                    const friendName = prompt("Enter your friend's name:");
-                    if (friendName) {
-                        const inviteLink = `https://t.me/makeyourworldbright_bot/Light_bot?ref=${userId}`;
-                        if (!invitedFriends.includes(friendName)) {
-                            invitedFriends.push(friendName);
-                            localStorage.setItem('invitedFriends', JSON.stringify(invitedFriends));
-                            displayInvitedFriends();
-                            document.getElementById('referralLinkContainer').innerText = `Your referral link: ${inviteLink}`;
-                        } else {
-                            alert("This friend has already been invited.");
-                        }
-                    }
-                };
-
-                // Display the invited friends
-                displayInvitedFriends();
+                contentDiv.innerHTML = 
+                    `<h1>Friend Page</h1>
+                    <p>Invite your friends!</p>`;
             } else if (page === 'wallet') {
-                contentDiv.innerHTML =
+                contentDiv.innerHTML = 
                     `<h1>Wallet Page</h1>
-                    <p>This is the wallet page!</p>`;
+                    <p>Check your wallet balance.</p>`;
             }
-        }
-
-        function displayInvitedFriends() {
-            const friendsList = document.getElementById('friendsList');
-            friendsList.innerHTML = ''; // Clear existing list
-            invitedFriends.forEach(friend => {
-                const row = document.createElement('tr');
-                row.innerHTML = `<td>${friend}</td><td>${userId}</td>`;
-                friendsList.appendChild(row);
-            });
         }
     </script>
 
