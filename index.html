@@ -168,6 +168,7 @@
             padding: 10px;
             border: none;
             border-radius: 5px;
+            color: #222;
         }
     </style>
 </head>
@@ -200,7 +201,6 @@
     </div>
 
     <script>
-        let userId = "";
         let username = "";
 
         window.onload = function () {
@@ -213,7 +213,6 @@
                     localStorage.setItem('username', username);
                 }
             }
-            userId = generateUserId(username); // Generate a user ID based on the username
 
             const savedTime = localStorage.getItem('countdownTime');
             const savedCounter = localStorage.getItem('counter');
@@ -336,11 +335,6 @@
                     `<h1>Wallet Page</h1>
                     <p>Check your wallet balance.</p>`;
             }
-        }
-
-        function generateUserId(username) {
-            // Create a unique user ID based on username
-            return username.toLowerCase().replace(/\s+/g, '_'); // Example: replace spaces with underscores
         }
     </script>
 
