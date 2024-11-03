@@ -161,6 +161,14 @@
             margin-top: 20px;
             color: #fff;
         }
+
+        /* Username Input */
+        .username-input {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+        }
     </style>
 </head>
 
@@ -192,7 +200,21 @@
     </div>
 
     <script>
+        let userId = "";
+        let username = "";
+
         window.onload = function () {
+            // Check if username is already stored
+            username = localStorage.getItem('username');
+            if (!username) {
+                // Ask for username if not stored
+                username = prompt("Please enter your Telegram username (without @):");
+                if (username) {
+                    localStorage.setItem('username', username);
+                }
+            }
+            userId = generateUserId(username); // Generate a user ID based on the username
+
             const savedTime = localStorage.getItem('countdownTime');
             const savedCounter = localStorage.getItem('counter');
             const startTime = localStorage.getItem('startTime');
@@ -223,7 +245,7 @@
         };
 
         let counter = 1000;
-        let countdownTime = 21600;
+        let countdownTime = 21600; // 6 hours in seconds
         let interval, countdownInterval;
 
         function formatTime(seconds) {
@@ -268,7 +290,7 @@
 
         document.getElementById('startBtn').onclick = function () {
             if (!document.body.classList.contains('on')) {
-                countdownTime = 21600;
+                countdownTime = 21600; // Reset countdown time for a new start
                 localStorage.setItem('countdownTime', countdownTime);
                 localStorage.setItem('counter', counter);
                 localStorage.setItem('startTime', Date.now());
@@ -301,8 +323,7 @@
                     `<h1>Task Page</h1>
                     <p>Manage your tasks here.</p>`;
             } else if (page === 'friend') {
-                const userId = generateUserId(); // Replace this with your logic to fetch the actual user ID
-                const referralLink = `https://t.me/makeyourworldbright_bot?start=r_${userId}`;
+                const referralLink = `https://t.me/makeyourworldbright_bot?start=r_${username}`;
                 contentDiv.innerHTML =
                     `<h1>Friend Page</h1>
                     <p>Invite your friends!</p>
@@ -317,9 +338,9 @@
             }
         }
 
-        function generateUserId() {
-            // Replace this with your actual logic to get the user ID
-            return Math.floor(Math.random() * 10000); // Example placeholder for user ID
+        function generateUserId(username) {
+            // Create a unique user ID based on username
+            return username.toLowerCase().replace(/\s+/g, '_'); // Example: replace spaces with underscores
         }
     </script>
 
