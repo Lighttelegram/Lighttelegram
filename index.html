@@ -155,48 +155,6 @@
             text-align: center;
             cursor: pointer;
         }
-
-        /* Referral Link Styles */
-        .referral-section {
-            margin-top: 20px;
-            color: #fff;
-        }
-
-        /* Username Input */
-        .username-input {
-            margin-bottom: 20px;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            color: #222;
-        }
-
-        /* Connect Wallet Button Styles */
-        .connect-btn {
-            display: flex;
-            align-items: center;
-            padding: 10px 20px;
-            background-color: #444;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-
-        .connect-btn img {
-            margin-right: 10px;
-        }
-
-        .arrow-icon {
-            margin-left: 10px;
-        }
-
-        /* Wallet Page Styles */
-        .wallet-info {
-            color: #fff;
-            margin-top: 20px;
-        }
     </style>
 </head>
 
@@ -228,45 +186,42 @@
     </div>
 
     <script>
-        let username = "";
-
+        // JavaScript to handle countdown and counter persistence
         window.onload = function () {
-            // Check if username is already stored
-            username = localStorage.getItem('username');
-            if (!username) {
-                // Ask for username if not stored
-                username = prompt("Please enter your Telegram username (without @):");
-                if (username) {
-                    localStorage.setItem('username', username);
-                }
-            }
-
             const savedTime = localStorage.getItem('countdownTime');
             const savedCounter = localStorage.getItem('counter');
             const startTime = localStorage.getItem('startTime');
 
+            // Check if there is a previous countdown
             if (savedTime && savedCounter && startTime) {
                 const currentTime = Date.now();
                 const elapsed = Math.floor((currentTime - startTime) / 1000);
                 counter = parseInt(savedCounter) + elapsed;
 
+                // If countdown time has not expired, restore it
                 countdownTime = Math.max(0, savedTime - elapsed);
 
+                // Update the UI if the countdown time is greater than 0
                 if (countdownTime > 0) {
                     document.body.style.display = 'flex';
                     updateCounterAndTime();
                     startCountdown();
                 } else {
-                    document.body.style.display = 'flex';
-                    document.getElementById('counter').innerText = counter;
-                    document.getElementById('startBtn').innerText = 'Start';
+                    // If countdown has ended, reset UI
+                    document.body.style.display = 'flex'; // Show main content
+                    document.getElementById('counter').innerText = counter; // Display current counter
+                    document.getElementById('startBtn').innerText = 'Start'; // Change button text
                 }
             } else {
+                // If no previous countdown, just show the main content
                 document.getElementById('loadingScreen').style.display = 'none';
                 document.body.style.display = 'flex';
             }
 
+            // Hide loading screen
             document.getElementById('loadingScreen').style.display = 'none';
+
+            // Show the home page initially
             showPage('home');
         };
 
@@ -278,7 +233,7 @@
             let h = Math.floor(seconds / 3600);
             let m = Math.floor((seconds % 3600) / 60);
             let s = seconds % 60;
-            return `${h}h ${m < 10 ? '0' + m : m}m ${s < 10 ? '0' + s : s}s`;
+            return `${h}h ${m < 10 ? '0' + m : m}m ${s < 10 ? '0' + s : s}s`; // Corrected template literal
         }
 
         function updateCounterAndTime() {
@@ -286,7 +241,7 @@
             document.getElementById('startBtn').innerText = formatTime(countdownTime);
             localStorage.setItem('counter', counter);
             localStorage.setItem('countdownTime', countdownTime);
-            localStorage.setItem('startTime', Date.now());
+            localStorage.setItem('startTime', Date.now()); // Update startTime to current time
         }
 
         function startCountdown() {
@@ -300,12 +255,15 @@
                 if (countdownTime <= 0) {
                     clearInterval(countdownInterval);
                     document.body.classList.remove('on');
-                    document.getElementById('startBtn').disabled = false;
+                    document.getElementById('startBtn').disabled = false; // Enable start button
+
+                    // Stop the counter when the countdown ends
                     clearInterval(interval);
-                    interval = null;
+                    interval = null; // Reset interval reference
                 }
             }, 1000);
 
+            // Start the counter only once when starting the countdown
             if (!interval) {
                 interval = setInterval(() => {
                     counter++;
@@ -318,69 +276,48 @@
             if (!document.body.classList.contains('on')) {
                 countdownTime = 21600; // Reset countdown time for a new start
                 localStorage.setItem('countdownTime', countdownTime);
-                localStorage.setItem('counter', counter);
-                localStorage.setItem('startTime', Date.now());
+                localStorage.setItem('counter', counter); // Store initial counter state
+                localStorage.setItem('startTime', Date.now()); // Set the start time
                 startCountdown();
             }
         };
 
+        // Show page content based on menu selection
         function showPage(page) {
             const contentDiv = document.getElementById('content');
             const lightContainer = document.getElementById('lightContainer');
             const counterDisplay = document.getElementById('counter');
             const startBtn = document.getElementById('startBtn');
 
+            // Hide wire and lamp for certain pages
             if (page === 'task' || page === 'friend' || page === 'wallet') {
                 lightContainer.style.display = 'none';
                 counterDisplay.style.display = 'none';
                 startBtn.style.display = 'none';
             } else {
-                lightContainer.style.display = 'flex';
+                lightContainer.style.display = 'flex'; // Show light elements
                 counterDisplay.style.display = 'block';
                 startBtn.style.display = 'block';
             }
 
+            // Update content based on selected page
             if (page === 'home') {
-                contentDiv.innerHTML =
+                contentDiv.innerHTML = 
                     `<h1>Home Page</h1>
                     <p>Welcome to the home page!</p>`;
             } else if (page === 'task') {
-                contentDiv.innerHTML =
+                contentDiv.innerHTML = 
                     `<h1>Task Page</h1>
                     <p>Manage your tasks here.</p>`;
             } else if (page === 'friend') {
-                const referralLink = `https://t.me/makeyourworldbright_bot?start=r_${username}`;
-                contentDiv.innerHTML =
+                contentDiv.innerHTML = 
                     `<h1>Friend Page</h1>
-                    <p>Invite your friends!</p>
-                    <div class="referral-section">
-                        <p>Your unique referral link:</p>
-                        <a href="${referralLink}" style="color: #00f;">${referralLink}</a>
-                    </div>`;
+                    <p>Invite your friends!</p>`;
             } else if (page === 'wallet') {
-                contentDiv.innerHTML =
+                contentDiv.innerHTML = 
                     `<h1>Wallet Page</h1>
-                    <p>Check your wallet balance below.</p>
-                    <div class="wallet-info">
-                        <div><strong>Wallet Balance:</strong> 0.00 TON</div>
-                    </div>
-                    <button class="connect-btn" id="connectWalletBtn">
-                        <img class="ton-icon" width="24" height="24" src="https://img-tap-miniapp.chrono.tech/svg/ton.svg" alt="ton">
-                        <div class="text">Connect your TON wallet</div>
-                        <img class="arrow-icon" width="24" height="24" src="https://img-tap-miniapp.chrono.tech/svg/arrow.svg" alt=">">
-                    </button>`;
-                // Add event listener for the button
-                document.getElementById('connectWalletBtn').onclick = function() {
-                    connectToTONWallet();
-                };
+                    <p>Check your wallet balance.</p>`;
             }
-        }
-
-        // Function to connect to the TON wallet
-        function connectToTONWallet() {
-            // Example connection logic (replace with actual wallet connection code)
-            alert('Connecting to TON wallet...'); // Placeholder for demonstration
-            // Implement wallet connection logic here
         }
     </script>
 
