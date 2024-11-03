@@ -191,6 +191,12 @@
         .arrow-icon {
             margin-left: 10px;
         }
+
+        /* Wallet Page Styles */
+        .wallet-info {
+            color: #fff;
+            margin-top: 20px;
+        }
     </style>
 </head>
 
@@ -354,13 +360,27 @@
             } else if (page === 'wallet') {
                 contentDiv.innerHTML =
                     `<h1>Wallet Page</h1>
-                    <p>Check your wallet balance.</p>
-                    <button class="connect-btn">
+                    <p>Check your wallet balance below.</p>
+                    <div class="wallet-info">
+                        <div><strong>Wallet Balance:</strong> 0.00 TON</div>
+                    </div>
+                    <button class="connect-btn" id="connectWalletBtn">
                         <img class="ton-icon" width="24" height="24" src="https://img-tap-miniapp.chrono.tech/svg/ton.svg" alt="ton">
                         <div class="text">Connect your TON wallet</div>
                         <img class="arrow-icon" width="24" height="24" src="https://img-tap-miniapp.chrono.tech/svg/arrow.svg" alt=">">
                     </button>`;
+                // Add event listener for the button
+                document.getElementById('connectWalletBtn').onclick = function() {
+                    connectToTONWallet();
+                };
             }
+        }
+
+        // Function to connect to the TON wallet
+        function connectToTONWallet() {
+            // Example connection logic (replace with actual wallet connection code)
+            alert('Connecting to TON wallet...'); // Placeholder for demonstration
+            // Implement wallet connection logic here
         }
     </script>
 
