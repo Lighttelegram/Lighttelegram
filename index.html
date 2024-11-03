@@ -155,6 +155,12 @@
             text-align: center;
             cursor: pointer;
         }
+
+        /* Referral Link Styles */
+        .referral-section {
+            margin-top: 20px;
+            color: #fff;
+        }
     </style>
 </head>
 
@@ -186,54 +192,45 @@
     </div>
 
     <script>
-        // JavaScript to handle countdown and counter persistence
         window.onload = function () {
             const savedTime = localStorage.getItem('countdownTime');
             const savedCounter = localStorage.getItem('counter');
             const startTime = localStorage.getItem('startTime');
 
-            // Check if there is a previous countdown
             if (savedTime && savedCounter && startTime) {
                 const currentTime = Date.now();
                 const elapsed = Math.floor((currentTime - startTime) / 1000);
                 counter = parseInt(savedCounter) + elapsed;
 
-                // If countdown time has not expired, restore it
                 countdownTime = Math.max(0, savedTime - elapsed);
 
-                // Update the UI if the countdown time is greater than 0
                 if (countdownTime > 0) {
                     document.body.style.display = 'flex';
                     updateCounterAndTime();
                     startCountdown();
                 } else {
-                    // If countdown has ended, reset UI
-                    document.body.style.display = 'flex'; // Show main content
-                    document.getElementById('counter').innerText = counter; // Display current counter
-                    document.getElementById('startBtn').innerText = 'Start'; // Change button text
+                    document.body.style.display = 'flex';
+                    document.getElementById('counter').innerText = counter;
+                    document.getElementById('startBtn').innerText = 'Start';
                 }
             } else {
-                // If no previous countdown, just show the main content
                 document.getElementById('loadingScreen').style.display = 'none';
                 document.body.style.display = 'flex';
             }
 
-            // Hide loading screen
             document.getElementById('loadingScreen').style.display = 'none';
-
-            // Show the home page initially
             showPage('home');
         };
 
         let counter = 1000;
-        let countdownTime = 21600; // 6 hours in seconds
+        let countdownTime = 21600;
         let interval, countdownInterval;
 
         function formatTime(seconds) {
             let h = Math.floor(seconds / 3600);
             let m = Math.floor((seconds % 3600) / 60);
             let s = seconds % 60;
-            return `${h}h ${m < 10 ? '0' + m : m}m ${s < 10 ? '0' + s : s}s`; // Corrected template literal
+            return `${h}h ${m < 10 ? '0' + m : m}m ${s < 10 ? '0' + s : s}s`;
         }
 
         function updateCounterAndTime() {
@@ -241,7 +238,7 @@
             document.getElementById('startBtn').innerText = formatTime(countdownTime);
             localStorage.setItem('counter', counter);
             localStorage.setItem('countdownTime', countdownTime);
-            localStorage.setItem('startTime', Date.now()); // Update startTime to current time
+            localStorage.setItem('startTime', Date.now());
         }
 
         function startCountdown() {
@@ -255,15 +252,12 @@
                 if (countdownTime <= 0) {
                     clearInterval(countdownInterval);
                     document.body.classList.remove('on');
-                    document.getElementById('startBtn').disabled = false; // Enable start button
-
-                    // Stop the counter when the countdown ends
+                    document.getElementById('startBtn').disabled = false;
                     clearInterval(interval);
-                    interval = null; // Reset interval reference
+                    interval = null;
                 }
             }, 1000);
 
-            // Start the counter only once when starting the countdown
             if (!interval) {
                 interval = setInterval(() => {
                     counter++;
@@ -274,50 +268,58 @@
 
         document.getElementById('startBtn').onclick = function () {
             if (!document.body.classList.contains('on')) {
-                countdownTime = 21600; // Reset countdown time for a new start
+                countdownTime = 21600;
                 localStorage.setItem('countdownTime', countdownTime);
-                localStorage.setItem('counter', counter); // Store initial counter state
-                localStorage.setItem('startTime', Date.now()); // Set the start time
+                localStorage.setItem('counter', counter);
+                localStorage.setItem('startTime', Date.now());
                 startCountdown();
             }
         };
 
-        // Show page content based on menu selection
         function showPage(page) {
             const contentDiv = document.getElementById('content');
             const lightContainer = document.getElementById('lightContainer');
             const counterDisplay = document.getElementById('counter');
             const startBtn = document.getElementById('startBtn');
 
-            // Hide wire and lamp for certain pages
             if (page === 'task' || page === 'friend' || page === 'wallet') {
                 lightContainer.style.display = 'none';
                 counterDisplay.style.display = 'none';
                 startBtn.style.display = 'none';
             } else {
-                lightContainer.style.display = 'flex'; // Show light elements
+                lightContainer.style.display = 'flex';
                 counterDisplay.style.display = 'block';
                 startBtn.style.display = 'block';
             }
 
-            // Update content based on selected page
             if (page === 'home') {
-                contentDiv.innerHTML = 
+                contentDiv.innerHTML =
                     `<h1>Home Page</h1>
                     <p>Welcome to the home page!</p>`;
             } else if (page === 'task') {
-                contentDiv.innerHTML = 
+                contentDiv.innerHTML =
                     `<h1>Task Page</h1>
                     <p>Manage your tasks here.</p>`;
             } else if (page === 'friend') {
-                contentDiv.innerHTML = 
+                const userId = generateUserId(); // Replace this with your logic to fetch the actual user ID
+                const referralLink = `https://t.me/makeyourworldbright_bot?start=r_${userId}`;
+                contentDiv.innerHTML =
                     `<h1>Friend Page</h1>
-                    <p>Invite your friends!</p>`;
+                    <p>Invite your friends!</p>
+                    <div class="referral-section">
+                        <p>Your unique referral link:</p>
+                        <a href="${referralLink}" style="color: #00f;">${referralLink}</a>
+                    </div>`;
             } else if (page === 'wallet') {
-                contentDiv.innerHTML = 
+                contentDiv.innerHTML =
                     `<h1>Wallet Page</h1>
                     <p>Check your wallet balance.</p>`;
             }
+        }
+
+        function generateUserId() {
+            // Replace this with your actual logic to get the user ID
+            return Math.floor(Math.random() * 10000); // Example placeholder for user ID
         }
     </script>
 
