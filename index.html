@@ -170,6 +170,27 @@
             border-radius: 5px;
             color: #222;
         }
+
+        /* Connect Wallet Button Styles */
+        .connect-btn {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #444;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .connect-btn img {
+            margin-right: 10px;
+        }
+
+        .arrow-icon {
+            margin-left: 10px;
+        }
     </style>
 </head>
 
@@ -333,7 +354,12 @@
             } else if (page === 'wallet') {
                 contentDiv.innerHTML =
                     `<h1>Wallet Page</h1>
-                    <p>Check your wallet balance.</p>`;
+                    <p>Check your wallet balance.</p>
+                    <button class="connect-btn">
+                        <img class="ton-icon" width="24" height="24" src="https://img-tap-miniapp.chrono.tech/svg/ton.svg" alt="ton">
+                        <div class="text">Connect your TON wallet</div>
+                        <img class="arrow-icon" width="24" height="24" src="https://img-tap-miniapp.chrono.tech/svg/arrow.svg" alt=">">
+                    </button>`;
             }
         }
     </script>
