@@ -9,7 +9,7 @@ const port = 3000;  // You can change this to any available port
 
 // Get the Telegram Bot Token from the environment variable
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}`;
+const TELEGRAM_API_URL = `https://t.me/makeyourworldbright_bot${TELEGRAM_BOT_TOKEN}`;
 
 // Middleware to parse incoming JSON requests
 app.use(express.json());
@@ -18,7 +18,7 @@ app.use(express.json());
 function sendWelcomeMessage(chatId) {
   const message = "Welcome to Light! Type any command to start.";
 
-  fetch(`${TELEGRAM_API_URL}/sendMessage`, {
+  fetch(`${https://t.me/makeyourworldbright_bot}/sendMessage`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ app.post('/webhook', (req, res) => {
 
 // Set the webhook for your bot to receive messages
 const setWebhook = () => {
-  const url = `${TELEGRAM_API_URL}/setWebhook?url=${process.env.WEBHOOK_URL}`;
+  const url = `${https://t.me/makeyourworldbright_bot}/setWebhook?url=${process.env.WEBHOOK_URL}`;
 
   fetch(url)
     .then(response => response.json())
