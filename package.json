@@ -1,29 +1,30 @@
 {
-  "name": "lightworld-app",
-  "version": "1.0.0",
-  "description": "A web app with a light bulb animation, countdown timer, referral system, and navigation.",
-  "main": "index.js",
-  "scripts": {
-    "start": "node server.js",
-    "build": "vite build",
-    "dev": "vite",
-    "test": "echo \"No tests specified\" && exit 0"
-  },
-  "keywords": [
-    "light",
-    "webapp",
-    "countdown",
-    "referral-system",
-    "navigation"
-  ],
-  "author": "Your Name",
-  "license": "MIT",
   "dependencies": {
     "@telegram-apps/sdk": "^2.5.2",
-    "@twa-dev/sdk": "^7.10.1",
-    "express": "^4.18.2"
-  },
-  "devDependencies": {
-    "vite": "^4.3.9"
+    "@twa-dev/sdk": "^7.10.1"
   }
 }
+{
+  "name": "Light",
+  "version": "1.0.0",
+  "description": "its Light",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-fetch": "^3.2.6",
+    "nodemon": "^2.0.22"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.3"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "author": "",
+  "license": "MIT"
+}
+
