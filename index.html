@@ -214,8 +214,8 @@
     </div>
 
     <div class="content" id="content">
-        <h1>Home Page</h1>
-        <p>Welcome to the home page!</p>
+        <h1></h1>
+        <p></p>
     </div>
 
     <div class="referrals" id="friendPage" style="display:none;">
@@ -402,7 +402,7 @@
             // Invite Friend Button
             document.getElementById("inviteFriend").addEventListener("click", () => {
                 const inviteLink = `${INVITE_URL}?startapp=${userId}`;
-                const shareText = "Join me on this awesome Telegram mini app!";
+                const shareText = "Light!";
                 const fullUrl = `https://t.me/share/url?url=${encodeURIComponent(inviteLink)}&text=${encodeURIComponent(shareText)}`;
                 window.open(fullUrl, "_blank");
             });
