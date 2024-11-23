@@ -315,99 +315,110 @@
             }
         }
 
-        document.getElementById('startBtn').onclick = function () {
-            if (!document.body.classList.contains('on')) {
-                countdownTime = 21600; // Reset countdown time for a new start
-                localStorage.setItem('countdownTime', countdownTime);
-                localStorage.setItem('counter', counter); // Store initial counter state
-                localStorage.setItem('startTime', Date.now()); // Set the start time
+        document.getElementById('startBtn').addEventListener('click', function () {
+            if (this.innerText === 'Start') {
                 startCountdown();
-            }
-        };
-
-        // Show page content based on menu selection
-        function showPage(page) {
-            const contentDiv = document.getElementById('content');
-            const lightContainer = document.getElementById('lightContainer');
-            const counterDisplay = document.getElementById('counter');
-            const startBtn = document.getElementById('startBtn');
-
-            // Hide wire and lamp for certain pages
-            if (page === 'task' || page === 'friend' || page === 'wallet') {
-                lightContainer.style.display = 'none';
-                counterDisplay.style.display = 'none';
-                startBtn.style.display = 'none';
             } else {
-                lightContainer.style.display = 'flex'; // Show light elements
-                counterDisplay.style.display = 'block';
-                startBtn.style.display = 'block';
+                counter++;
+                updateCounterAndTime();
             }
+        });
 
-            // Update content based on selected page
-            if (page === 'home') {
-                contentDiv.innerHTML =
-                    `<h1>Home Page</h1>
-                    <p>Welcome to the home page!</p>`;
-            } else if (page === 'task') {
-                contentDiv.innerHTML =
-                    `<h1>Task Page</h1>
-                    <p>Manage your tasks here.</p>`;
-            } else if (page === 'friend') {
-                contentDiv.innerHTML =
-                    `<h1>Friend Page</h1>
-                    <p>Invite your friends!</p>`;
-                showReferrals(); // Show referral system when navigating to the friend page
-            } else if (page === 'wallet') {
-                contentDiv.innerHTML =
-                    `<h1>Wallet Page</h1>
-                    <p>Check your wallet balance.</p>`;
-            }
-        }
+        function showPage(page) {
+    const content = document.getElementById('content');
+    const friendPage = document.getElementById('friendPage');
+    const lightContainer = document.getElementById('lightContainer'); // Lightbulb and wire container
+    const counterElement = document.getElementById('counter'); // Counter element
+    const startBtn = document.getElementById('startBtn'); // Start button element
 
-        // Referral system
-        function showReferrals() {
-            const friendPage = document.getElementById('friendPage');
-            friendPage.style.display = 'block';
-            const referrerMessage = document.getElementById('referrer-message');
-            const referralList = document.getElementById('referralList');
-            const inviteButton = document.getElementById('inviteFriend');
-            const copyButton = document.getElementById('copyLink');
+    // Hide light, wire, and counter elements on non-home pages
+    if (page === 'home') {
+        content.style.display = 'block';
+        friendPage.style.display = 'none';
+        lightContainer.style.display = 'block'; // Show light, wire, and counter
+        counterElement.style.display = 'block'; // Show the counter
+        startBtn.style.display = 'block'; // Show the start button
+    } else if (page === 'friend') {
+        content.style.display = 'none';
+        friendPage.style.display = 'block';
+        lightContainer.style.display = 'none'; // Hide light, wire, and counter
+        counterElement.style.display = 'none'; // Hide the counter
+        startBtn.style.display = 'none'; // Hide the start button
+    } else if (page === 'wallet' || page === 'task') {
+        content.style.display = 'none';
+        friendPage.style.display = 'none';
+        lightContainer.style.display = 'none'; // Hide light, wire, and counter
+        counterElement.style.display = 'none'; // Hide the counter
+        startBtn.style.display = 'none'; // Hide the start button
+    }
+}
 
-            // Check if the user is coming through a referral link
-            const urlParams = new URLSearchParams(window.location.search);
-            const referrerId = urlParams.get('referrer');
+        // Referral System Logic
+        document.addEventListener("DOMContentLoaded", () => {
+            const userId = "user123"; // Replace with dynamic user ID
+            const INVITE_URL = "https://t.me/makeyourworldbright_bot/Light_bot";
+            const startParam = new URLSearchParams(window.location.search).get("startapp");
 
-            if (referrerId) {
-                referrerMessage.innerHTML = `You were invited by: ${referrerId}`;
-            }
+            const fetchReferrals = async () => {
+                try {
+                    const response = await fetch(`/api/referrals?userId=${userId}`);
+                    if (!response.ok) throw new Error("Failed to fetch referrals");
+                    const data = await response.json();
 
-            // Save referrals to local storage
-            const referrals = JSON.parse(localStorage.getItem('referrals')) || [];
-            referralList.innerHTML = referrals.map(referral => `<li>${referral}</li>`).join('');
+                    // Update Referrals List
+                    const referralList = document.getElementById("referralList");
+                    if (data.referrals && data.referrals.length > 0) {
+                        referralList.innerHTML = data.referrals
+                            .map(referral => `<li class="bg-gray-100 p-2 mb-2 rounded">User ${referral}</li>`)
+                            .join("");
+                    }
 
-            inviteButton.addEventListener('click', function () {
-                // Generate referral link with a unique user ID
-                const userId = 'user123'; // Use actual user ID or unique identifier
-                const referralLink = `${window.location.origin}?referrer=${userId}`;
+                    // Display Referrer
+                    if (data.referrer) {
+                        const referrerMessage = document.getElementById("referrer-message");
+                        referrerMessage.textContent = `You were referred by user ${data.referrer}`;
+                    }
+                } catch (error) {
+                    console.error("Error fetching referrals:", error);
+                }
+            };
 
-                // Add the referral to the list
-                referrals.push(userId);
-                localStorage.setItem('referrals', JSON.stringify(referrals));
+            const saveReferral = async () => {
+                if (startParam && userId) {
+                    try {
+                        const response = await fetch("/api/referrals", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ userId, referrerId: startParam }),
+                        });
+                        if (!response.ok) throw new Error("Failed to save referral");
+                    } catch (error) {
+                        console.error("Error saving referral:", error);
+                    }
+                }
+            };
 
-                // Update the referral list UI
-                referralList.innerHTML = referrals.map(referral => `<li>${referral}</li>`).join('');
-                alert(`Referral link generated: ${referralLink}`);
+            // Invite Friend Button
+            document.getElementById("inviteFriend").addEventListener("click", () => {
+                const inviteLink = `${INVITE_URL}?startapp=${userId}`;
+                const shareText = "Join me on this awesome Telegram mini app!";
+                const fullUrl = `https://t.me/share/url?url=${encodeURIComponent(inviteLink)}&text=${encodeURIComponent(shareText)}`;
+                window.open(fullUrl, "_blank");
             });
 
-            copyButton.addEventListener('click', function () {
-                const referralLink = `${window.location.origin}?referrer=user123`;
-                navigator.clipboard.writeText(referralLink)
-                    .then(() => alert('Referral link copied to clipboard'))
-                    .catch(err => alert('Failed to copy referral link: ' + err));
+            // Copy Invite Link Button
+            document.getElementById("copyLink").addEventListener("click", () => {
+                const inviteLink = `${INVITE_URL}?startapp=${userId}`;
+                navigator.clipboard
+                    .writeText(inviteLink)
+                    .then(() => alert("Invite link copied to clipboard!"))
+                    .catch(err => alert("Failed to copy link: " + err));
             });
-        }
+
+            saveReferral();
+            fetchReferrals();
+        });
     </script>
-
 </body>
 
 </html>
