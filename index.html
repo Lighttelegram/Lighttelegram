@@ -155,39 +155,6 @@
             text-align: center;
             cursor: pointer;
         }
-
-        /* Referral System */
-        .referrals {
-            margin-top: 30px;
-            color: white;
-        }
-
-        .referrals h2 {
-            margin-bottom: 10px;
-        }
-
-        .referral-list {
-            list-style: none;
-        }
-
-        .button {
-            background-color: #444;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        .button:hover {
-            background-color: #666;
-        }
-
-        .referrer {
-            margin-top: 10px;
-            color: lightgreen;
-        }
     </style>
 </head>
 
@@ -208,22 +175,14 @@
     <button class="btn" id="startBtn">6h 00m 00s</button>
     <div class="menu-bar">
         <div class="menu-item" onclick="showPage('home')">Home</div>
-        <div class="menu-item" onclick="showPage('task')">Task</div>
         <div class="menu-item" onclick="showPage('friend')">Friend</div>
+        <div class="menu-item" onclick="showPage('task')">Task</div>
         <div class="menu-item" onclick="showPage('wallet')">Wallet</div>
     </div>
 
     <div class="content" id="content">
-        <h1></h1>
-        <p></p>
-    </div>
-
-    <div class="referrals" id="friendPage" style="display:none;">
-        <h2>Your Referrals</h2>
-        <div id="referrer-message"></div>
-        <button id="inviteFriend" class="button invite">Invite Friend</button>
-        <button id="copyLink" class="button copy">Copy Invite Link</button>
-        <ul id="referralList" class="referral-list"></ul>
+        <h1>Home Page</h1>
+        <p>Welcome to the home page!</p>
     </div>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -325,100 +284,39 @@
             }
         };
 
+        // Show page content based on menu selection
         function showPage(page) {
-    const content = document.getElementById('content');
-    const friendPage = document.getElementById('friendPage');
-    const lightContainer = document.getElementById('lightContainer'); // Lightbulb and wire container
-    const counterElement = document.getElementById('counter'); // Counter element
-    const startBtn = document.getElementById('startBtn'); // Start button element
+            const contentDiv = document.getElementById('content');
+            const lightContainer = document.getElementById('lightContainer');
+            const counterDiv = document.getElementById('counter');
+            const startBtn = document.getElementById('startBtn');
 
-    // Hide light, wire, and counter elements on non-home pages
-    if (page === 'home') {
-        content.style.display = 'block';
-        friendPage.style.display = 'none';
-        lightContainer.style.display = 'block'; // Show light, wire, and counter
-        counterElement.style.display = 'block'; // Show the counter
-        startBtn.style.display = 'block'; // Show the start button
-    } else if (page === 'friend') {
-        content.style.display = 'none';
-        friendPage.style.display = 'block';
-        lightContainer.style.display = 'none'; // Hide light, wire, and counter
-        counterElement.style.display = 'none'; // Hide the counter
-        startBtn.style.display = 'none'; // Hide the start button
-    } else if (page === 'wallet' || page === 'task') {
-        content.style.display = 'none';
-        friendPage.style.display = 'none';
-        lightContainer.style.display = 'none'; // Hide light, wire, and counter
-        counterElement.style.display = 'none'; // Hide the counter
-        startBtn.style.display = 'none'; // Hide the start button
-    }
-}
+            switch (page) {
+                case 'home':
+                    lightContainer.style.display = 'block';
+                    counterDiv.style.display = 'block';
+                    startBtn.style.display = 'block';
+                    contentDiv.innerHTML = '<h1>Home Page</h1><p>Welcome to the home page!</p>';
+                    break;
 
-        // Referral System Logic
-        document.addEventListener("DOMContentLoaded", () => {
-            const userId = ""; // Replace with dynamic user ID
-            const INVITE_URL = "https://t.me/makeyourworldbright_bot/Light_bot";
-            const startParam = new URLSearchParams(window.location.search).get("startapp");
+                case 'task':
+                    lightContainer.style.display = 'none';
+                    counterDiv.style.display = 'none';
+                    startBtn.style.display = 'none';
+                    contentDiv.innerHTML = '<h1>Task Page</h1><p>View and complete tasks here.</p>';
+                    break;
 
-            const fetchReferrals = async () => {
-                try {
-                    const response = await fetch(`/api/referrals?userId=${userId}`);
-                    if (!response.ok) throw new Error("Failed to fetch referrals");
-                    const data = await response.json();
+                case 'wallet':
+                    lightContainer.style.display = 'none';
+                    counterDiv.style.display = 'none';
+                    startBtn.style.display = 'none';
+                    contentDiv.innerHTML = '<h1>Wallet Page</h1><p>Check your wallet balance here.</p>';
+                    break;
 
-                    // Update Referrals List
-                    const referralList = document.getElementById("referralList");
-                    if (data.referrals && data.referrals.length > 0) {
-                        referralList.innerHTML = data.referrals
-                            .map(referral => `<li class="bg-gray-100 p-2 mb-2 rounded">User ${referral}</li>`)
-                            .join("");
-                    }
-
-                    // Display Referrer
-                    if (data.referrer) {
-                        const referrerMessage = document.getElementById("referrer-message");
-                        referrerMessage.textContent = `You were referred by user ${data.referrer}`;
-                    }
-                } catch (error) {
-                    console.error("Error fetching referrals:", error);
-                }
-            };
-
-            const saveReferral = async () => {
-                if (startParam && userId) {
-                    try {
-                        const response = await fetch("/api/referrals", {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({ userId, referrerId: startParam }),
-                        });
-                        if (!response.ok) throw new Error("Failed to save referral");
-                    } catch (error) {
-                        console.error("Error saving referral:", error);
-                    }
-                }
-            };
-
-            // Invite Friend Button
-            document.getElementById("inviteFriend").addEventListener("click", () => {
-                const inviteLink = `${INVITE_URL}?startapp=${userId}`;
-                const shareText = "Light!";
-                const fullUrl = `https://t.me/share/url?url=${encodeURIComponent(inviteLink)}&text=${encodeURIComponent(shareText)}`;
-                window.open(fullUrl, "_blank");
-            });
-
-            // Copy Invite Link Button
-            document.getElementById("copyLink").addEventListener("click", () => {
-                const inviteLink = `${INVITE_URL}?startapp=${userId}`;
-                navigator.clipboard
-                    .writeText(inviteLink)
-                    .then(() => alert("Invite link copied to clipboard!"))
-                    .catch(err => alert("Failed to copy link: " + err));
-            });
-
-            saveReferral();
-            fetchReferrals();
-        });
+                default:
+                    break;
+            }
+        }
     </script>
 </body>
 
