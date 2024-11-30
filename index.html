@@ -356,48 +356,19 @@
 
         // Referral System Logic
         document.addEventListener("DOMContentLoaded", () => {
-            const userId = ""; // Replace with dynamic user ID
+          // Check if a unique ID exists in localStorage
+            let uniqueId = localStorage.getItem("uniqueId");
+
+            // If not, generate a new one
+            if (!uniqueId) {
+                uniqueId = generateUniqueId();
+                localStorage.setItem("uniqueId", uniqueId);
+            }
+
+            console.log("Your Unique ID:", uniqueId);
+
             const INVITE_URL = "https://t.me/makeyourworldbright_bot/Light_bot";
-            const startParam = new URLSearchParams(window.location.search).get("startapp");
-
-            const fetchReferrals = async () => {
-                try {
-                    const response = await fetch(`/api/referrals?userId=${userId}`);
-                    if (!response.ok) throw new Error("Failed to fetch referrals");
-                    const data = await response.json();
-
-                    // Update Referrals List
-                    const referralList = document.getElementById("referralList");
-                    if (data.referrals && data.referrals.length > 0) {
-                        referralList.innerHTML = data.referrals
-                            .map(referral => `<li class="bg-gray-100 p-2 mb-2 rounded">User ${referral}</li>`)
-                            .join("");
-                    }
-
-                    // Display Referrer
-                    if (data.referrer) {
-                        const referrerMessage = document.getElementById("referrer-message");
-                        referrerMessage.textContent = `You were referred by user ${data.referrer}`;
-                    }
-                } catch (error) {
-                    console.error("Error fetching referrals:", error);
-                }
-            };
-
-            const saveReferral = async () => {
-                if (startParam && userId) {
-                    try {
-                        const response = await fetch("/api/referrals", {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({ userId, referrerId: startParam }),
-                        });
-                        if (!response.ok) throw new Error("Failed to save referral");
-                    } catch (error) {
-                        console.error("Error saving referral:", error);
-                    }
-                }
-            };
+            const referralLink = `${INVITE_URL}?startapp=${uniqueId}`;  
 
             // Invite Friend Button
             document.getElementById("inviteFriend").addEventListener("click", () => {
@@ -409,16 +380,35 @@
 
             // Copy Invite Link Button
             document.getElementById("copyLink").addEventListener("click", () => {
-                const inviteLink = `${INVITE_URL}?startapp=${userId}`;
                 navigator.clipboard
-                    .writeText(inviteLink)
+                    .writeText(referralLink)
                     .then(() => alert("Invite link copied to clipboard!"))
                     .catch(err => alert("Failed to copy link: " + err));
             });
 
-            saveReferral();
-            fetchReferrals();
+            // Invite Friend Button
+            document.getElementById("inviteFriend").addEventListener("click", () => {
+                const shareText = "Be the Light in the Crypto World!!";
+                const fullUrl = `https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent(shareText)}`;
+                window.open(fullUrl, "_blank");
+            });
+
+            // Display Referrer if it exists in the URL
+            const params = new URLSearchParams(window.location.search);
+            const referrer = params.get("startapp");
+            if (referrer) {
+                document.getElementById("referrer-message").innerText = `You were referred by user ${referrer}`;
+            }
         });
+
+        // Function to generate a unique ID
+        function generateUniqueId() {
+            return (
+                'user_' +
+                Math.random().toString(36).substring(2, 10) + // Random string
+                Date.now().toString(36) // Timestamp for uniqueness
+            );
+        }
     </script>
 </body>
 
