@@ -7,6 +7,47 @@
     <title>Make Your World Bright</title>
     <link rel="stylesheet" href="style.css" />
     <style>
+    /* Style for task page */
+#taskPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center horizontally */
+    justify-content: flex-start; /* Keep content at the top, but allow some space at the top */
+    height: 100vh; /* Full viewport height */
+    padding: 40px 20px 20px 20px; /* Add padding to move content slightly down */
+    box-sizing: border-box;
+    text-align: center; /* Align text in the middle */
+}
+
+#taskPage h2 {
+    margin-bottom: 20px;
+}
+
+#taskPage .link {
+    margin-bottom: 20px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #444;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.subscribe-btn {
+    background-color: #444;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.subscribe-btn:hover {
+    background-color: #666;
+}
+
         /* Loading screen styles */
         .loading-screen {
             position: fixed;
@@ -225,10 +266,24 @@
         <button id="copyLink" class="button copy">Copy Invite Link</button>
         <ul id="referralList" class="referral-list"></ul>
     </div>
+    
+    <!-- Task Page with YouTube video link -->
+    <div id="taskPage" style="display: none;">
+        <h2>Watch this YouTube Video</h2>
+         <a href="https://www.youtube.com/watch?v=LZJIZxWvPA8" target="_blank" id="videoLink" class="link">Click to Watch and Get Coins</a>
+    <!-- Subscribe Button moved below the link -->
+        <a href="https://www.youtube.com/@Light-Bulb-r8z" target="_blank">
+            <button class="subscribe-btn">Subscribe to Our Channel</button>
+        </a>
+        
+        </div>
+    </div>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <script>
+    
+    
         // JavaScript to handle countdown and counter persistence
         window.onload = function () {
             const savedTime = localStorage.getItem('countdownTime');
@@ -324,6 +379,12 @@
                 startCountdown();
             }
         };
+        // JavaScript to handle YouTube video link click and increase coins
+        let lightCoins = 100000;
+
+        function increaseLightCoins() {
+            alert(`You get ${lightCoins} Light coin(s)!`);
+        }
 
         function showPage(page) {
     const content = document.getElementById('content');
@@ -331,7 +392,7 @@
     const lightContainer = document.getElementById('lightContainer'); // Lightbulb and wire container
     const counterElement = document.getElementById('counter'); // Counter element
     const startBtn = document.getElementById('startBtn'); // Start button element
-
+    const taskPage = document.getElementById('taskPage'); // Task page with video
     // Hide light, wire, and counter elements on non-home pages
     if (page === 'home') {
         content.style.display = 'block';
@@ -339,6 +400,13 @@
         lightContainer.style.display = 'block'; // Show light, wire, and counter
         counterElement.style.display = 'block'; // Show the counter
         startBtn.style.display = 'block'; // Show the start button
+    } else if (page === 'task') {
+                content.style.display = 'none';
+                friendPage.style.display = 'none';
+                taskPage.style.display = 'block'; // Show task page
+                lightContainer.style.display = 'none';
+                counterElement.style.display = 'none';
+                startBtn.style.display = 'none';
     } else if (page === 'friend') {
         content.style.display = 'none';
         friendPage.style.display = 'block';
