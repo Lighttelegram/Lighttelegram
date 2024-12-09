@@ -351,9 +351,17 @@
     
         // JavaScript to handle countdown and counter persistence
         window.onload = function () {
-            const savedTime = localStorage.getItem('countdownTime');
-            const savedCounter = localStorage.getItem('counter');
-            const startTime = localStorage.getItem('startTime');
+           uniqueId = localStorage.getItem('uniqueId'); // Get unique ID of the player
+
+            if (!uniqueId) {
+                // If the uniqueId does not exist, generate it and save it to localStorage
+                uniqueId = generateUniqueId();
+                localStorage.setItem('uniqueId', uniqueId);
+            }
+            // Fetch saved countdown and counter data for this specific user (uniqueId)
+            const savedTime = localStorage.getItem(`countdownTime_${uniqueId}`);
+            const savedCounter = localStorage.getItem(`counter_${uniqueId}`);
+            const startTime = localStorage.getItem(`startTime_${uniqueId}`);
 
             // Check if there is a previous countdown
             if (savedTime && savedCounter && startTime) {
