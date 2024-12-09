@@ -410,9 +410,10 @@
         function updateCounterAndTime() {
             document.getElementById('counter').innerText = counter;
             document.getElementById('startBtn').innerText = formatTime(countdownTime);
-            localStorage.setItem('counter', counter);
-            localStorage.setItem('countdownTime', countdownTime);
-            localStorage.setItem('startTime', Date.now()); // Update startTime to current time
+            // Save counter and countdown time using the unique ID
+            localStorage.setItem(`counter_${uniqueId}`, counter);
+            localStorage.setItem(`countdownTime_${uniqueId}`, countdownTime);
+            localStorage.setItem(`startTime_${uniqueId}`, Date.now());
         }
 
         function startCountdown() {
