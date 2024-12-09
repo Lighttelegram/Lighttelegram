@@ -415,6 +415,24 @@
             localStorage.setItem(`countdownTime_${uniqueId}`, countdownTime);
             localStorage.setItem(`startTime_${uniqueId}`, Date.now());
         }
+        // Format time for display (HH:MM:SS)
+        function formatTime(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const sec = seconds % 60;
+
+            return `${pad(hours)}:${pad(minutes)}:${pad(sec)}`;
+        }
+
+        // Pad numbers to ensure two digits
+        function pad(num) {
+            return num < 10 ? '0' + num : num;
+        }
+
+        // Generate a random unique ID
+        function generateUniqueId() {
+            return 'id-' + Math.random().toString(36).substr(2, 9);
+        }
 
         function startCountdown() {
             document.body.classList.add('on');
