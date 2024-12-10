@@ -369,9 +369,6 @@
                 const elapsed = Math.floor((currentTime - startTime) / 1000);
                 counter = parseInt(savedCounter) + elapsed;
 
-                // If countdown time has not expired, restore it
-                countdownTime = Math.max(0, savedTime - elapsed);
-
                 // Update the UI if the countdown time is greater than 0
                 if (countdownTime > 0) {
                     document.body.style.display = 'flex';
