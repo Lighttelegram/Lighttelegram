@@ -280,6 +280,41 @@
             margin-top: 10px;
             color: lightgreen;
         }
+        body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #111; /* Dark background for the body */
+        color: #fff;
+    }
+
+    .bottom-menu {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background-color: transparent; /* Transparent background */
+        padding: 10px 0;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5); /* Optional shadow for better visibility */
+    }
+
+    .menu-item {
+        text-align: center;
+        color: #fff; /* White text */
+        flex: 1;
+        position: relative;
+    }
+
+    .menu-item.active {
+        color: #0f0; /* Green text for active menu item */
+    }
+
+    .menu-item span {
+        font-size: 14px;
+        display: block;
+        margin-top: 5px;
+    }
     </style>
 </head>
 
@@ -300,6 +335,7 @@
     <button class="btn" id="startBtn">6h 00m 00s</button>
     <!-- Bottom Menu Bar -->
     <div class="bottom-menu">
+      
         <div class="menu-item" onclick="showPage('home')">
             <div class="icon">💡</div>
             <span>Light</span>
