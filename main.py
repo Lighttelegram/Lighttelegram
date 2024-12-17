@@ -9,7 +9,7 @@ load_dotenv()
 # Get the token from the environment variable
 TOKEN = os.getenv('TELEGRAM-BOT-API')
 
-# /start command handler
+# /start command1 handler
 def start(update: Update, context: CallbackContext) -> None:
     keyboard = [
         [InlineKeyboardButton("💡 PLAY 💡", callback_data='play')],
