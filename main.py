@@ -7,7 +7,7 @@ import os
 load_dotenv()
 
 # Get the token from the environment variable
-TOKEN = os.getenv('8088416514:AAGWu_XFnRdHMLSlobC9mWPT_sOkNFB0tOA')
+TOKEN = os.getenv('TELEGRAM-BOT-API')
 
 # /start command handler
 def start(update: Update, context: CallbackContext) -> None:
