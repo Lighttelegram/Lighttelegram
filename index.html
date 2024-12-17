@@ -485,8 +485,9 @@
     const counterElement = document.getElementById('counter'); // Counter element
     const startBtn = document.getElementById('startBtn'); // Start button element
     const taskPage = document.getElementById('taskPage'); // Task page with video
-     // Hide all pages before showing the target page
-     content.style.display = 'none';
+
+    // Hide all pages before showing the target page
+    content.style.display = 'none';
     friendPage.style.display = 'none';
     taskPage.style.display = 'none';
     lightContainer.style.display = 'none';
@@ -496,29 +497,15 @@
     // Show the specific page based on the passed page parameter
     if (page === 'home') {
         content.style.display = 'block';
-        friendPage.style.display = 'none';
         lightContainer.style.display = 'block'; // Show light, wire, and counter
         counterElement.style.display = 'block'; // Show the counter
         startBtn.style.display = 'block'; // Show the start button
     } else if (page === 'task') {
-                content.style.display = 'none';
-                friendPage.style.display = 'none';
-                taskPage.style.display = 'block'; // Show task page
-                lightContainer.style.display = 'none';
-                counterElement.style.display = 'none';
-                startBtn.style.display = 'none';
+        taskPage.style.display = 'block'; // Show task page
     } else if (page === 'friend') {
-        content.style.display = 'none';
         friendPage.style.display = 'block';
-        lightContainer.style.display = 'none'; // Hide light, wire, and counter
-        counterElement.style.display = 'none'; // Hide the counter
-        startBtn.style.display = 'none'; // Hide the start button
-    } else if (page === 'wallet' || page === 'task') {
-        content.style.display = 'none';
-        friendPage.style.display = 'none';
-        lightContainer.style.display = 'none'; // Hide light, wire, and counter
-        counterElement.style.display = 'none'; // Hide the counter
-        startBtn.style.display = 'none'; // Hide the start button
+    } else if (page === 'wallet') {
+        // You can add wallet page logic here if you need it
     }
 }
 
