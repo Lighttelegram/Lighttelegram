@@ -21,20 +21,21 @@
       display: flex;
       justify-content: space-around;
       align-items: center;
-      background-color: #111;
+      background-color: transparent; /* Transparent background */
       padding: 10px 0;
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);/* Optional shadow to make the menu visible */
+}
     }
 
     .menu-item {
       text-align: center;
-      color: #888;
+      color: #fff;  /* Text color set to white for visibility */
       flex: 1;
       position: relative;
     }
 
     .menu-item.active {
-      color: #0f0;
+      color: #0f0; /* Active menu item color */
     }
 
     .menu-item span {
