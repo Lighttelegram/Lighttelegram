@@ -520,6 +520,13 @@
         counterElement.style.display = 'none'; // Hide the counter
         startBtn.style.display = 'none'; // Hide the start button
     }
+            // Remove the "active" class from all menu items
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.classList.remove('active');
+    });
+
+    // Add the "active" class to the clicked menu item
+    document.querySelector(`.menu-item[onclick="showPage('${page}')"]`).classList.add('active');
 }
 
         // Referral System Logic
