@@ -58,51 +58,42 @@
       border-radius: 50%;
       padding: 2px 6px;
     }
-   /* Style for task page */
-#taskPage {
+  #taskPage {
     display: flex;
     flex-direction: column;
-    align-items: left; /* left horizontally */
-    justify-content: flex-start; /* Keep content at the top, but allow some space at the top */
+    align-items: flex-start; /* Align all elements to the left */
+    justify-content: flex-start; /* Keep content at the top */
     height: 100vh; /* Full viewport height */
-    padding: 40px 20px 20px 20px; /* Add padding to move content slightly down */
+    padding: 20px; /* Add spacing around content */
     box-sizing: border-box;
-    text-align: center; /* Align text in the middle */
 }
 
 #taskPage h2 {
-    margin-bottom: 20px;
-}
-
-#taskPage .link {
-    margin-bottom: 20px;
-    text-decoration: none;
-    color: #fff;
-    background-color: #444;
-    padding: 10px 70px;
-    border-radius: 5px;
-    font-size: 16px;
+    margin-bottom: 20px; /* Add space below the heading */
+    text-align: left; /* Ensure heading aligns left */
 }
 
 .task {
     display: flex;
-    align-items: left; 
-    justify-content: space-between; /* Space between text and action button */
-    width: 100%; 
-    max-width: 400px; /* Limit task width */
-    background-color: #f5f5f5; 
-    padding: 15px 50px; 
-    border-radius: 10px; 
+    align-items: center; /* Vertically center content */
+    justify-content: space-between; /* Space between text and button */
+    width: 100%;
+    max-width: 400px; /* Limit the width of each task */
+    background-color: #444; 
+    padding: 15px 20px; /* Inner spacing */
+    border-radius: 10px; /* Rounded corners */
     margin-bottom: 15px; /* Space between tasks */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
 .task span {
-    flex: 1; 
-    text-align: left; 
-    margin-right: 10px; /* Space between text and button */
     color: #333;
     font-size: 16px;
+    text-align: left; /* Align text to the left */
+    margin-right: 10px;
+    white-space: nowrap; /* Prevent line breaks */
+    overflow: hidden; /* Prevent overflow */
+    text-overflow: ellipsis; /* Add "..." if text is too long */
 }
 
 .task button {
@@ -114,6 +105,7 @@
     font-size: 14px;
     cursor: pointer;
     transition: background-color 0.3s;
+    white-space: nowrap; /* Prevent button text wrapping */
 }
 
 .task button:hover {
@@ -121,20 +113,24 @@
 }
 
 .subscribe-btn {
+    margin-top: 20px; /* Space above subscribe button */
     background-color: #444;
     color: white;
-    padding: 10px 70px;
+    padding: 10px 20px;
     border: none;
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
+    text-align: center;
     transition: background-color 0.3s;
-    margin-top: 20px; /* Space above claim button */
 }
 
 .subscribe-btn:hover {
     background-color: #666;
 }
+
+}
+
         /* Loading screen styles */
         .loading-screen {
             position: fixed;
