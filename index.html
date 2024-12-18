@@ -62,7 +62,7 @@
 #taskPage {
     display: flex;
     flex-direction: column;
-    align-items: left; /* left horizontally */
+    align-items: middle; /* middle horizontally */
     justify-content: flex-start; /* Keep content at the top, but allow some space at the top */
     height: 100vh; /* Full viewport height */
     padding: 40px 20px 20px 20px; /* Add padding to move content slightly down */
@@ -79,14 +79,14 @@
     text-decoration: none;
     color: #fff;
     background-color: #444;
-    padding: 10px 90px;
+    padding: 10px 20px;
     border-radius: 5px;
     font-size: 16px;
 }
 
 .task {
     display: flex;
-    align-items: left; 
+    align-items: middle; 
     justify-content: space-between; /* Space between text and action button */
     width: 100%; 
     max-width: 400px; /* Limit task width */
@@ -111,7 +111,7 @@
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    font-size: 14px;
+    font-size: 15px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
@@ -123,10 +123,10 @@
 .subscribe-btn {
     background-color: #444;
     color: white;
-    padding: 10px 90px;
+    padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 15px;
     cursor: pointer;
     transition: background-color 0.3s;
     margin-top: 20px; /* Space above claim button */
@@ -398,7 +398,7 @@
         <div class="menu-item" onclick="showPage('task')">
             <div class="icon">⚙️</div>
             <span>Task</span>
-            <div class="badge">3</div>
+            <div class="badge"></div>
         </div>
         <div class="menu-item active" onclick="showPage('friend')">
             <div class="icon">👥</div>
@@ -407,7 +407,7 @@
         <div class="menu-item" onclick="showPage('wallet')">
             <div class="icon">💰</div>
             <span>Wallet</span>
-            <div class="badge">32</div>
+            <div class="badge"></div>
         </div>
     </div>
 
@@ -427,7 +427,7 @@
     <!-- Task Page with YouTube video link -->
     <div id="taskPage" style="display: none;">
         <h2>Watch this YouTube Video</h2>
-         <a href="https://www.youtube.com/watch?v=LZJIZxWvPA8" target="_blank" id="videoLink" class="link">Click to Watch and Get Coins</a>
+         <a href="https://www.youtube.com/watch?v=LZJIZxWvPA8" target="_blank" id="videoLink" class="link">Click to Watch Video</a>
     <!-- Subscribe Button moved below the link -->
         <a href="https://www.youtube.com/@Light-Bulb-r8z" target="_blank">
             <button class="subscribe-btn">Subscribe to Our Channel</button>
