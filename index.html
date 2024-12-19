@@ -507,6 +507,7 @@
             localStorage.setItem(`countdownTime_${uniqueId}`, countdownTime);
             localStorage.setItem(`startTime_${uniqueId}`, Date.now());
         }
+        
         // Format time for display (HH:MM:SS)
         function formatTime(seconds) {
             const hours = Math.floor(seconds / 3600);
@@ -520,6 +521,58 @@
         function pad(num) {
             return num < 10 ? '0' + num : num;
         }
+function handleReferral(referrerId) {
+    const uniqueId = localStorage.getItem("uniqueId");
+    if (!uniqueId) {
+        console.error("User's uniqueId not found.");
+        return;
+    }
+
+    if (referrerId && referrerId !== uniqueId) {
+        // Fetch global list of invited users
+        let globalInvited = JSON.parse(localStorage.getItem("globalInvited")) || [];
+
+        // Check if the user has already been invited
+        if (globalInvited.includes(uniqueId)) {
+            console.log("This user has already been invited. Referral not recorded.");
+            return;
+        }
+
+        // Add this user to the inviter's referral list
+        let referrals = JSON.parse(localStorage.getItem("referrals")) || {};
+        if (!referrals[referrerId]) {
+            referrals[referrerId] = [];
+        }
+        referrals[referrerId].push(uniqueId);
+        localStorage.setItem("referrals", JSON.stringify(referrals));
+
+        // Update global list of invited users
+        globalInvited.push(uniqueId);
+        localStorage.setItem("globalInvited", JSON.stringify(globalInvited));
+        console.log("Referral recorded successfully.");
+    }
+}
+function displayReferredUsers() {
+    const uniqueId = localStorage.getItem("uniqueId");
+    const referrals = JSON.parse(localStorage.getItem("referrals")) || {};
+    const referredUsers = referrals[uniqueId] || [];
+
+    const referralTable = document.getElementById("referralTable");
+    referralTable.innerHTML = "";
+
+    referredUsers.forEach((id, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>${index + 1}</td><td>${id}</td>`;
+        referralTable.appendChild(row);
+    });
+}
+
+// Call this function on the "Friend" page load
+document.addEventListener("DOMContentLoaded", displayReferredUsers);
+function getReferralLink() {
+    const uniqueId = localStorage.getItem("uniqueId");
+    return `https://t.me/makeyourworldbright_bot/Light_bot?startapp=${uniqueId}`;
+}
 
         // Generate a random unique ID
         function generateUniqueId() {
