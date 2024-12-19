@@ -676,6 +676,31 @@
                 Date.now().toString(36) // Timestamp for uniqueness
             );
         }
+        // Get referrer ID from URL
+const urlParams = new URLSearchParams(window.location.search);
+const referrerId = urlParams.get('referrer');
+
+// If the user has a referrer ID, save it to localStorage
+if (referrerId) {
+  localStorage.setItem('referrer', referrerId);
+}
+// Assume you have the referrer ID and the new user's information
+const newUser = {
+  id: 'uniqueUserID', // Unique ID of the new user
+  name: 'New User',    // New user's name
+  coinBalance: 50      // Coin balance of the new user (mining number)
+};
+
+// Store the referred user's information
+localStorage.setItem('referredUser', JSON.stringify(newUser));
+const referredUser = JSON.parse(localStorage.getItem('referredUser'));
+
+// If there is a referred user, display their info
+if (referredUser) {
+  document.getElementById('friendName').innerText = referredUser.name;
+  document.getElementById('friendCoins').innerText = `Coins: ${referredUser.coinBalance}`;
+}
+
     </script>
 </body>
 
