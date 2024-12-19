@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -113,12 +114,12 @@ button:hover {
 #taskPage {
     display: flex;
     flex-direction: column;
-    align-items: middle; /* middle horizontally */
+    align-items: left; /* left horizontally */
     justify-content: flex-start; /* Keep content at the top, but allow some space at the top */
     height: 100vh; /* Full viewport height */
     padding: 40px 20px 20px 20px; /* Add padding to move content slightly down */
     box-sizing: border-box;
-    text-align: center; /* Align text in the middle */
+    text-align: left; /* Align text in the left */
 }
 
 #taskPage h2 {
@@ -130,14 +131,18 @@ button:hover {
     text-decoration: none;
     color: #fff;
     background-color: #444;
-    padding: 10px 20px;
+    padding: 10px 90px;
     border-radius: 5px;
     font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: left;
+    border-bottom: 1px solid #999;
 }
 
 .task {
     display: flex;
-    align-items: middle; 
+    align-items: left; 
     justify-content: space-between; /* Space between text and action button */
     width: 100%; 
     max-width: 400px; /* Limit task width */
@@ -174,12 +179,15 @@ button:hover {
 .subscribe-btn {
     background-color: #444;
     color: white;
-    padding: 10px 20px;
+    padding: 10px 90px;
     border: none;
     border-radius: 5px;
     font-size: 15px;
     cursor: pointer;
     transition: background-color 0.3s;
+    justify-content: space-between;
+    align-items: left;
+    border-bottom: 1px solid #999;
     margin-top: 20px; /* Space above claim button */
 }
 
