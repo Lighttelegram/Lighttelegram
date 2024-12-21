@@ -320,15 +320,19 @@ button:hover {
         }
 
         .btn {
-            position: absolute;
-            bottom: 80px;
-            left: 50%
-            transform: translateX(-50%);
+            position: absolute; /* Change from fixed to absolute */
+    bottom: 10%; /* Move it to the center vertically */
+    left: 45%; /* Center it horizontally */
+    transform: translate(-50%, 50%); /* Correct the position offset */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: transparent; /* Transparent background */
+    padding: 10px 0;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5); /* Optional shadow for visibility */
+    padding: 8px 16px;
             font-size: 16px;
-            background-color: #444;
-            color: white;
-            border: none;
-            border-radius: 5px;
+}
             
             
             
