@@ -325,12 +325,10 @@ button:hover {
 
         
             .btn {
-    position: absolute;
-    bottom: 80px; /* Distance from the bottom */
-    left: 50%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for button's width */
-    padding: 8px 16px;
-    font-size: 16px;
+    position: relative; /* No absolute positioning */
+    margin-top: 20px; /* Optional: space from other elements */
+    padding: 10px 20px;
+    font-size: 18px;
     background-color: #444;
     color: white;
     border: none;
@@ -338,9 +336,7 @@ button:hover {
     cursor: pointer;
     transition: background-color 0.3s;
 }
-
-            
-            
+             
         }
 
         .btn:hover {
