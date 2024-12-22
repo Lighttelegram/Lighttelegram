@@ -8,19 +8,15 @@
     <link rel="stylesheet" href="style.css" />
     <style>
      body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #000;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative; /* Ensure relative positioning for child elements */
-}
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
+      justify-content: center
+    }
 
     .bottom-menu {
-      
+      position: fixed;
       bottom: 0;
       width: 100%;
       display: flex;
@@ -263,7 +259,7 @@ button:hover {
             left: 50%;
             transform: translateX(-50%);
             color: #fff;
-            font-size: 22px;
+            font-size: 20px;
         }
 
         .bulb {
@@ -323,23 +319,21 @@ button:hover {
             background: #000;
         }
 
-        
-            .btn {
-              position: absolute;
-            bottom:80px;
-            left: 4%;
+        .btn {
+            position: absolute;
+            bottom: 80px;
+            left: 45%;
             transform: translateX(-50%);
-            color: #fff;
-            font-size: 20px;
-    padding: 10px 20px;
-    background-color: #444;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-             
+            padding: 9px 40px;
+            font-size: 16px;
+            background-color: #444;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            
+            
         }
 
         .btn:hover {
