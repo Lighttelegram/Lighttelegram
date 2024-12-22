@@ -108,110 +108,7 @@ button:hover {
   transition: all 0.3s ease;
 }
 
-/* Spark
 
-   /* Style for task page */
-#taskPage {
-    display: flex;
-    flex-direction: column;
-    align-items: left; /* left horizontally */
-    justify-content: flex-start; /* Keep content at the top, but allow some space at the top */
-    height: 100vh; /* Full viewport height */
-    padding: 40px 20px 20px 20px; /* Add padding to move content slightly down */
-    box-sizing: border-box;
-    text-align: left; /* Align text in the left */
-}
-
-#taskPage h2 {
-    margin-bottom: 20px;
-}
-
-#taskPage .link {
-    margin-bottom: 20px;
-    text-decoration: none;
-    color: #fff;
-    background-color: #444;
-    padding: 10px 90px;
-    border-radius: 5px;
-    font-size: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: left;
-    border-bottom: 1px solid #999;
-}
-
-.task {
-    display: flex;
-    align-items: left; 
-    justify-content: space-between; /* Space between text and action button */
-    width: 100%; 
-    max-width: 400px; /* Limit task width */
-    background-color: #f5f5f5; 
-    padding: 15px 20px; 
-    border-radius: 10px; 
-    margin-bottom: 15px; /* Space between tasks */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.task span {
-    flex: 1; 
-    text-align: left; 
-    margin-right: 10px; /* Space between text and button */
-    color: #333;
-    font-size: 16px;
-}
-
-.task button {
-    background-color: #444;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 15px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.task button:hover {
-    background-color: #666;
-}
-
-.subscribe-btn {
-    background-color: #444;
-    color: white;
-    padding: 10px 90px;
-    border: none;
-    border-radius: 5px;
-    font-size: 15px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    justify-content: space-between;
-    align-items: left;
-    border-bottom: 1px solid #999;
-    margin-top: 20px; /* Space above claim button */
-}
-
-.subscribe-btn:hover {
-    background-color: #666;
-}
-
-/* Claim Reward button */
-.claim-btn {
-    background-color: #28a745; 
-    color: white;
-    padding: 15px 30px;
-    border: none;
-    border-radius: 10px;
-    font-size: 18px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: 30px; /* Space between last task and claim button */
-}
-
-.claim-btn:hover {
-    background-color: #218838;
-}
-}
 
         /* Loading screen styles */
         .loading-screen {
@@ -432,6 +329,86 @@ button:hover {
         display: block;
         margin-top: 5px;
     }
+    
+    #taskPage {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align to the left */
+    justify-content: flex-start;
+    height: 100vh;
+    padding: 40px 20px 20px 20px;
+    box-sizing: border-box;
+    text-align: left; /* Ensure all text is left-aligned */
+}
+
+#taskPage h2 {
+    margin-bottom: 20px;
+}
+
+#taskPage .link {
+    margin-bottom: 20px;
+    text-decoration: none;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid #999;
+}
+
+
+.task {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 400px;
+    background-color: #f5f5f5;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.task span {
+    font-size: 16px;
+    color: #333;
+}
+
+.task::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #ddd;
+    transform: translateY(-50%);
+}
+
+.subscribe-btn {
+    background-color: #111;
+    margin-bottom: 20px;
+    text-decoration: none;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: left;
+    border-bottom: 3px solid #999;
+
+}
+
+.subscribe-btn:hover {
+     font-size: 16px;
+    color: #333;
+}
+
     </style>
 </head>
 
@@ -485,14 +462,19 @@ button:hover {
         <button id="copyLink" class="button copy">Copy Invite Link</button>
         <ul id="referralList" class="referral-list"></ul>
     </div>
-    
+   
     <!-- Task Page with YouTube video link -->
     <div id="taskPage" style="display: none;">
         <h2>Watch this YouTube Video</h2>
-         <a href="https://www.youtube.com/watch?v=LZJIZxWvPA8" target="_blank" id="videoLink" class="link">Click to Watch Video</a>
-    <!-- Subscribe Button moved below the link -->
-        <a href="https://www.youtube.com/@Light-Bulb-r8z" target="_blank">
-            <button class="subscribe-btn">Subscribe to Our Channel</button>
+    <a href="https://www.youtube.com/watch?v=LZJIZxWvPA8" target="_blank" id="videoLink" class="link">Click to Watch Video</a>
+
+    
+
+    <!-- Subscribe Button -->
+    <a href="https://www.youtube.com/@Light-Bulb-r8z" target="_blank">
+        <button class="subscribe-btn">Subscribe to  Channel</button>
+    </a>
+</div>
         </a>
         
         </div>
