@@ -157,6 +157,7 @@ button:hover {
             transform: translateX(-50%);
             color: #fff;
             font-size: 20px;
+            
         }
 
         .bulb {
@@ -216,26 +217,30 @@ button:hover {
             background: #000;
         }
 
-        .btn {
-            position: absolute;
-            top: 80%;
-            left: 46.3%;
-            transform: translate(-50%, -50%);
-            padding: 9px 40px;
-            font-size: 16px;
-            background-color: #444;
-            color: white;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            
-            
-        }
+        .parent-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+}
 
-        .btn:hover {
-            background-color: #666;
-        }
+.btn {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 9px 40px;
+    font-size: 16px;
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #666;
+}
 
         .btn:disabled {
             background-color: #666;
